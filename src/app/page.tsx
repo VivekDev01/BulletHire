@@ -1,103 +1,194 @@
-import Image from "next/image";
+/* === pages/index.tsx === */
+import Head from 'next/head';
+import styles from './page.module.css';
+import Image from 'next/image';
+import WorkIcon from '@mui/icons-material/Work';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import RocketIcon from '@mui/icons-material/Rocket';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className={styles.container}>
+      <Head>
+        <title>BulletHire | Apply for jobs & Hire Easily</title>
+        <meta name="description" content="Find, assess and hire easily" />
+      </Head>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <header className={styles.header}>
+        <div className={styles.logo}>
+          <span style={{color:"#383838"}}>Bullet</span>
+          <span style={{color:"#4184D6"}}>Hire</span>          
+          </div>
+        <nav className={styles.nav}>
+          <a href="#">Become a recruiter</a>
+          <a href="#">Good deals</a>
+          <a href="#how_it_works">How it work</a>
+          <a href="#why_choose_us">Why choose us</a>
+        </nav>
+        <div className={styles.authButtons}>
+          <Link href="/signin">
+          <button className={styles.signIn} >Sign in</button>
+          </Link>
+          <Link href="/signup">
+          <button className={styles.signUp}>Sign up</button>
+          </Link>
+        </div>
+      </header>
+
+      <main className={styles.main}>
+        <div className={styles.leftColumn}>
+          <div className={styles.leftColumnContent}>
+            <h1>Find, assess and hire<br />a best candidate <span className={styles.highlight}>Easily</span></h1>
+            <p>Plateform to hire candidates using AI automation</p>
+            <div className={styles.storeButtons}>
+              <img src="/google-play-badge.png" alt="Google Play" />
+              <img src="/app-store-badge.png" alt="App Store" />
+            </div>
+          </div>
+        </div>
+        <div className={styles.rightColumn}>
+          <img src="/Header3.png" alt="girl" className={styles.girlImage} />
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      <section id='how_it_works' className={styles.howItWorks}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.badge}>HOW IT WORK</span>
+        <h2>Hire with following 3 working steps</h2>
+      </div>
+
+      <div className={styles.steps}>
+        <div className={styles.stepBox}>
+          <div className={styles.iconBox}>
+            <WorkIcon />
+          </div>
+          <h3>Provide roles</h3>
+          <p>Mention the roles that you are looking</p>
+        </div>
+        <div className={styles.stepBox}>
+          <div className={styles.iconBox}>
+            <FactCheckIcon />
+          </div>
+          <h3>Get shortlisted candidates</h3>
+          <p>We will assess candidates and pick topmost X for next round</p>
+        </div>
+        <div className={styles.stepBox}>
+          <div className={styles.iconBox}>
+            <CalendarMonthIcon />
+          </div>
+          <h3>Schedule a interview</h3>
+          <p>We will schedule a interview for X candidates</p>
+        </div>
+      </div>
+
+      <div className={styles.stepper}>
+        <div className={styles.stepperItem}>
+          <div className={styles.stepLine}></div>
+          <div className={styles.stepCircle}>1</div>
+          <div className={styles.stepLabel}>Step 1</div>  
+          <div className={styles.stepLine}></div>
+        </div>
+        <div className={styles.stepperItem}>
+          <div className={styles.stepLine}></div>
+          <div className={styles.stepCircle}>1</div>
+          <div className={styles.stepLabel}>Step 1</div>
+          <div className={styles.stepLine}></div>
+        </div>
+        <div className={styles.stepperItem}>
+          <div className={styles.stepCircle}>2</div>
+          <div className={styles.stepLabel}>Step 2</div>
+          <div className={styles.stepLine}></div>
+        </div>
+        <div className={styles.stepperItem}>
+          <div className={styles.stepCircle}>3</div>
+          <div className={styles.stepLabel}>Step 3</div>
+          <div className={styles.stepLine}></div>
+        </div>
+        <div className={styles.stepperItem}>
+          <div className={styles.stepCircle}>4</div>
+          <div className={styles.stepLabel}>Step 4</div>
+          <div className={styles.stepLine}></div>
+        </div>
+        <div className={styles.stepperItem}>
+          <div className={styles.stepCircle}>5</div>
+          <div className={styles.stepLabel}>Step 5</div>
+          <div className={styles.stepLine}></div>
+        </div>
+        <div className={styles.stepperItem}>
+          <div className={styles.stepCircle}>6</div>
+          <div className={styles.stepLabel}>Step 6</div>
+        </div>
+      </div>
+
+
+    </section>
+
+    <section id='why_choose_us' className={styles.container2}>
+      <div className={styles.imageWrapper}>
+        <Image
+          src="/images/hire_with_ai.jpeg"
+          alt="Hire with AI"
+          layout="intrinsic"
+          width={500}
+          height={200}
+          className={styles.girlImage2}
+        />
+      </div>
+
+      <div className={styles.textContent}>
+        <button className={styles.tag}>WHY CHOOSE US</button>
+        <h2 className={styles.title}>
+          We offer the best experience <br /> with our platform
+        </h2>
+
+        <div className={styles.features}>
+          <div className={styles.featureItem}>
+            <div className={styles.iconBox2}>
+              <TipsAndUpdatesIcon />
+            </div>
+            <div className={styles.titleBox}>
+              <h4>Smarter Hiring, Simplified</h4>
+              <p>Leverage AI to cut through the noise and find the perfect candidate, every time.</p>
+            </div>
+          </div>
+
+          <div className={styles.featureItem}>
+            <div className={styles.iconBox2}>
+              <LockOpenIcon />
+            </div>
+            <div className={styles.titleBox}>
+              <h4>Unbiased Talent, Unlocked</h4>
+              <p>Eliminate human bias with AI-driven assessments, ensuring fair and diverse hiring.</p>
+            </div>
+          </div>
+
+          <div className={styles.featureItem}>
+            <div className={styles.iconBox2}>
+              <RocketIcon />
+            </div>
+           <div className={styles.titleBox}>
+              <h4>Hire Faster, Hire Better</h4>
+              <p>Accelerate your recruitment process with AI that identifies top talent quickly and accurately.</p>
+            </div>
+          </div>
+
+          <div className={styles.featureItem}>
+            <div className={styles.iconBox2}>
+              <AutoAwesomeIcon />
+            </div>
+            <div className={styles.titleBox}>
+              <h4>Beyond Resumes, True Potential</h4>
+              <p>Discover hidden talent and evaluate skills objectively with our advanced AI analysis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     </div>
   );
 }
