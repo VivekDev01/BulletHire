@@ -1,0 +1,109 @@
+.parentContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  color: #000;
+  border: #000000 1px solid;
+  box-shadow: #000000 0px 4px 10px;
+}
+
+.heading {
+  font-size: 1.8rem;
+  color: #383838;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.fieldGroup {
+  margin-bottom: 2rem;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #4184D6;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #4184D6;
+  border-radius: 8px;
+}
+
+.textArea {
+  width: 100%;
+  min-height: 300px;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #4184D6;
+  border-radius: 10px;
+  resize: vertical;
+  white-space: pre-wrap;
+}
+
+.displayRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.displayDescription {
+  position: relative;
+}
+
+.preserve {
+  white-space: pre-wrap;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-family: 'arial', sans-serif;
+}
+
+.editBtn,
+.saveBtn {
+  background-color: transparent;
+  border: none;
+  color: #4184D6;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 1rem;
+  padding: 0.3rem 0.5rem;
+}
+
+.saveBtn {
+  color: #ffffff;
+  background-color: #4184D6;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+.finalizeBtn {
+  display: block;
+  margin: 2rem auto 0;
+  background-color: #4184D6;
+  color: #ffffff;
+  padding: 0.9rem 2.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.finalizeBtn:hover {
+  background-color: #357abf;
+}
