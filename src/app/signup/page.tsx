@@ -1,4 +1,3 @@
-// src/app/signup/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -7,11 +6,15 @@ import styles from './page.module.css';
 import Eye from '@mui/icons-material/Visibility';
 import EyeOff from '@mui/icons-material/VisibilityOff';
 import Link from 'next/link';
+import { url } from '../../config';
 
 export default function SignupPage() {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordVisible2, setPasswordVisible2] = useState(false);
   const [strength, setStrength] = useState('');
 
   const evaluateStrength = (pwd: string) => {
@@ -19,17 +22,56 @@ export default function SignupPage() {
     if (/\d/.test(pwd) && /[A-Z]/.test(pwd) && /[^a-zA-Z0-9]/.test(pwd)) return 'Strong';
     return 'Medium';
   };
+  
 
   const handlePasswordChange = (val: string) => {
     setPassword(val);
     setStrength(evaluateStrength(val));
   };
 
+  const handlePasswordChange2 = (val: string) => {
+    setConfirmPassword(val);
+    
+  };
+
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('/api/signup', { email, password });
+      if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+      if (strength === 'Weak') {
+        alert('Password is too weak');
+        return;
+      }
+      if (!username || !email || !password) {
+        alert('Please fill in all fields');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please enter a valid email address');
+        return;
+      }
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters long');
+        return;
+      }
+      if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{6,}$/.test(password)) {
+        alert('Password must contain at least one uppercase letter, one number, and one special character');
+        return;
+      }
+      const payload = {
+        username: username,
+        email: email,
+        password: password,
+      };
+
+      const response = await axios.post(`${url}/api/signup`, payload);
+      console.log(response.data);
       alert(response.data.message);
+      window.location.href = '/signin';
     } catch (err: any) {
+      console.error('Signup error:', err);
       alert(err?.response?.data?.message || 'Signup failed');
     }
   };
@@ -41,8 +83,8 @@ export default function SignupPage() {
         <input
           type="text"
           placeholder="Name"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className={styles.input}
         />
         <input
@@ -72,24 +114,30 @@ export default function SignupPage() {
 
         <div className={styles.passwordWrapper}>
           <input
-            type={passwordVisible ? 'text' : 'password'}
+            type={passwordVisible2 ? 'text' : 'password'}
             placeholder="Confirm Password"
-            value={password}
-            onChange={(e) => handlePasswordChange(e.target.value)}
+            value={confirmPassword}
+            onChange={(e) => handlePasswordChange2(e.target.value)}
             className={styles.input}
           />
           <button
             type="button"
-            onClick={() => setPasswordVisible(!passwordVisible)}
+            onClick={() => setPasswordVisible2(!passwordVisible2)}
             className={styles.eyeIcon}
           >
-            {passwordVisible ? <EyeOff /> : <Eye />}
+            {passwordVisible2 ? <EyeOff /> : <Eye />}
           </button>
         </div>
 
         {password && (
           <p style={{ color: strength === 'Weak' ? 'red' : strength === 'Medium' ? 'orange' : 'green', marginBottom: '12px' }}>
             Password Strength: {strength}
+          </p>
+        )}
+
+        {password && confirmPassword && password !== confirmPassword && (
+          <p style={{ color: 'red', marginBottom: '12px' }}>
+            Passwords do not match
           </p>
         )}
 

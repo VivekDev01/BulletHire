@@ -7,6 +7,7 @@ import styles from './page.module.css';
 import Eye from '@mui/icons-material/Visibility';
 import EyeOff from '@mui/icons-material/VisibilityOff';
 import Link from 'next/link';
+import { url } from '../../config';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -15,9 +16,17 @@ export default function LoginPage() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('/api/login', { email, password });
+      const payload = {
+        email: email,
+        password: password,
+      }
+      const response = await axios.post(`${url}/api/login`, payload);
       alert(response.data.message);
+      console.log(response.data);
+      localStorage.setItem('token', response.data.token);
+      window.location.href = '/home'; 
     } catch (err: any) {
+      console.error('Login error:', err);
       alert(err?.response?.data?.message || 'Login failed');
     }
   };
