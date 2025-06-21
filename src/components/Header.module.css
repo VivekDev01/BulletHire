@@ -376,3 +376,6 @@
   font-size: 0.9rem;
   color: #666;
 }
+.avatarButton{
+  cursor: pointer;
+}

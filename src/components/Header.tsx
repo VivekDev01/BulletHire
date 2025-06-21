@@ -1,12 +1,80 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Header.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import axios from 'axios';
+import {url} from '../config'
 
 const Header = () => {
     const pathname = usePathname();
-    const isAuthenticated = true; // Replace with actual authentication logic
-    console.log("Current Path:", pathname);
+    const isAuthenticated = true; 
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const [userData, setUserData] = useState({
+        name: '',
+        email: '',
+        profilePicture: '',
+        id: ''
+    });
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                await axios.get(`${url}/api/get_user`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                .then((response) => {
+                    setUserData({
+                        name: response.data.user.username,
+                        email: response.data.user.email,
+                        profilePicture: response.data.user.profilePicture || '/static/images/avatar/1.jpg',
+                        id: response.data.user.id
+                    });
+                }).catch((error) => {
+                    console.error('Error fetching user data:', error);
+                });
+            } catch (error) {
+                console.error('Error in useEffect:', error);
+            }
+        };
+        fetchUserData();
+    }, []);
+    
+    
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const handleLogout = () => {
+        try{
+            axios.post(`${url}/api/logout`, {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            }).then((response) => {
+                console.log('Logout successful:', response.data);
+            }).catch((error) => {
+                console.error('Error during logout:', error);
+            });
+        }
+        catch (error) {
+            console.error('Error in handleLogout:', error);
+        }
+        console.log('Logging out...');
+        localStorage.removeItem('token');
+        console.log('Token removed from localStorage');
+        setAnchorEl(null);
+        window.location.href = '/signin';
+    }
+    
 
   return (
     <div className={styles.container}>
@@ -25,10 +93,35 @@ const Header = () => {
             )}
             
             {isAuthenticated && (pathname==='/' || pathname==='/home') &&
-                <div className={styles.authButtons}>
-                    <Link href="/post-jd-keywords">
-                        <button className={styles.profileButton}>Post with AI</button>
-                    </Link>
+                // <div >
+                //     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                // </div>
+                <div>
+                    <button
+                        className={styles.avatarButton}
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
+                        <Avatar alt={userData.name} src="/static/images/avatar/1.jpg" />
+
+                    </button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        slotProps={{
+                        list: {
+                            'aria-labelledby': 'basic-button',
+                        },
+                        }}
+                    >
+                        <MenuItem onClick={handleClose}>{userData.name}</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
                 </div>
             }   
             {!isAuthenticated &&
