@@ -21,112 +21,82 @@ export default function Home() {
 
       <header className={styles.header}>
         <div className={styles.logo}>
-          <span style={{color:"#383838"}}>Bullet</span>
-          <span style={{color:"#4184D6"}}>Hire</span>          
-          </div>
+          <span className={styles.logoMain}>Bullet</span>
+          <span className={styles.logoAccent}>Hire</span>
+        </div>
         <nav className={styles.nav}>
-          <a href="#">Become a recruiter</a>
-          <a href="#">Good deals</a>
-          <a href="#how_it_works">How it work</a>
-          <a href="#why_choose_us">Why choose us</a>
+          <a href="#how_it_works" className={styles.navLink}>How it works</a>
+          <a href="#why_choose_us" className={styles.navLink}>Why choose us</a>
+          <a href="#become_recruiter" className={styles.navLink}>Become a recruiter</a>
+          <a href="#good_deals" className={styles.navLink}>Good deals</a>
         </nav>
         <div className={styles.authButtons}>
-          <Link href="/signin">
-          <button className={styles.signIn} >Sign in</button>
+          <Link href="/signin" className={styles.authLink}>
+            <button className={styles.signIn}>Sign in</button>
           </Link>
-          <Link href="/signup">
-          <button className={styles.signUp}>Sign up</button>
+          <Link href="/signup" className={styles.authLink}>
+            <button className={styles.signUp}>Sign up</button>
           </Link>
         </div>
       </header>
 
-      <main className={styles.main}>
-        <div className={styles.leftColumn}>
-          <div className={styles.leftColumnContent}>
-            <h1>Find, assess and hire<br />a best candidate <span className={styles.highlight}>Easily</span></h1>
-            <p>Plateform to hire candidates using AI automation</p>
+
+      <main className={styles.mainHero}>
+        <div className={styles.heroContent}>
+          <div className={styles.heroTextBlock}>
+            <h1 className={styles.heroTitle}>
+              <span className={styles.heroGradient}>Find, Assess & Hire</span><br />
+              <span className={styles.heroSubTitle}>Top Talent Effortlessly</span>
+            </h1>
+            <p className={styles.heroDesc}>
+              The next-gen AI-powered platform to automate your hiring process.<br />
+              Discover, evaluate, and connect with the best candidates in minutes.
+            </p>
+            <div className={styles.heroActions}>
+              <Link href="/signup">
+                <button className={styles.ctaButton}>Get Started</button>
+              </Link>
+              <Link href="#how_it_works">
+                <button className={styles.secondaryButton}>How it Works</button>
+              </Link>
+            </div>
             <div className={styles.storeButtons}>
               <img src="/google-play-badge.png" alt="Google Play" />
               <img src="/app-store-badge.png" alt="App Store" />
             </div>
           </div>
-        </div>
-        <div className={styles.rightColumn}>
-          <img src="/Header3.png" alt="girl" className={styles.girlImage} />
+          <div className={styles.heroImageBlock}>
+            <div className={styles.heroImageBg}></div>
+            <img src="/Header3.png" alt="girl" className={styles.heroImage} />
+          </div>
         </div>
       </main>
 
-      <section id='how_it_works' className={styles.howItWorks}>
-      <div className={styles.sectionHeader}>
-        <span className={styles.badge}>HOW IT WORK</span>
-        <h2>Hire with following 3 working steps</h2>
-      </div>
+    
 
-      <div className={styles.steps}>
-        <div className={styles.stepBox}>
-          <div className={styles.iconBox}>
-            <WorkIcon />
+      <section id="how_it_works" className={styles.howItWorks}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.badge}>HOW IT WORKS</span>
+          <h2>Hire in 3 Simple Steps</h2>
+        </div>
+        <div className={styles.steps}>
+          <div className={styles.stepBox}>
+            <div className={styles.iconBox}><WorkIcon /></div>
+            <h3>1. Provide Roles</h3>
+            <p>Tell us the roles and requirements you are hiring for.</p>
           </div>
-          <h3>Provide roles</h3>
-          <p>Mention the roles that you are looking</p>
-        </div>
-        <div className={styles.stepBox}>
-          <div className={styles.iconBox}>
-            <FactCheckIcon />
+          <div className={styles.stepBox}>
+            <div className={styles.iconBox}><FactCheckIcon /></div>
+            <h3>2. Get Shortlisted Candidates</h3>
+            <p>Our AI will assess and shortlist the best candidates for you.</p>
           </div>
-          <h3>Get shortlisted candidates</h3>
-          <p>We will assess candidates and pick topmost X for next round</p>
-        </div>
-        <div className={styles.stepBox}>
-          <div className={styles.iconBox}>
-            <CalendarMonthIcon />
+          <div className={styles.stepBox}>
+            <div className={styles.iconBox}><CalendarMonthIcon /></div>
+            <h3>3. Schedule Interviews</h3>
+            <p>Schedule interviews with top candidates easily through our platform.</p>
           </div>
-          <h3>Schedule a interview</h3>
-          <p>We will schedule a interview for X candidates</p>
         </div>
-      </div>
-
-      <div className={styles.stepper}>
-        <div className={styles.stepperItem}>
-          <div className={styles.stepLine}></div>
-          <div className={styles.stepCircle}>1</div>
-          <div className={styles.stepLabel}>Step 1</div>  
-          <div className={styles.stepLine}></div>
-        </div>
-        <div className={styles.stepperItem}>
-          <div className={styles.stepLine}></div>
-          <div className={styles.stepCircle}>1</div>
-          <div className={styles.stepLabel}>Step 1</div>
-          <div className={styles.stepLine}></div>
-        </div>
-        <div className={styles.stepperItem}>
-          <div className={styles.stepCircle}>2</div>
-          <div className={styles.stepLabel}>Step 2</div>
-          <div className={styles.stepLine}></div>
-        </div>
-        <div className={styles.stepperItem}>
-          <div className={styles.stepCircle}>3</div>
-          <div className={styles.stepLabel}>Step 3</div>
-          <div className={styles.stepLine}></div>
-        </div>
-        <div className={styles.stepperItem}>
-          <div className={styles.stepCircle}>4</div>
-          <div className={styles.stepLabel}>Step 4</div>
-          <div className={styles.stepLine}></div>
-        </div>
-        <div className={styles.stepperItem}>
-          <div className={styles.stepCircle}>5</div>
-          <div className={styles.stepLabel}>Step 5</div>
-          <div className={styles.stepLine}></div>
-        </div>
-        <div className={styles.stepperItem}>
-          <div className={styles.stepCircle}>6</div>
-          <div className={styles.stepLabel}>Step 6</div>
-        </div>
-      </div>
-
-
-    </section>
+      </section>
 
     <section id='why_choose_us' className={styles.container2}>
       <div className={styles.imageWrapper}>
@@ -187,6 +157,51 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="become_recruiter" className={styles.becomeRecruiterSection}>
+      <div className={styles.becomeRecruiterContent}>
+        <h2>Become a Recruiter</h2>
+        <p>
+          Join BulletHire as a recruiter and start finding the best talent effortlessly. 
+          Post your job requirements, let our AI shortlist candidates, and streamline your hiring process.
+        </p>
+        <Link href="/create-jd" className={styles.becomeRecruiterLink}>
+          <button className={styles.becomeRecruiterButton}>
+            Create Job Description
+          </button>
+        </Link>
+      </div>
+    </section>
+
+    <section id="good_deals" className={styles.goodDealsSection}>
+      <div className={styles.goodDealsContent}>
+        <h2>Good Deals</h2>
+        <p>Unlock premium features and boost your hiring process with our exclusive deals!</p>
+        <div className={styles.dealsTable}>
+          <div className={styles.dealRow}>
+            <span className={styles.dealName}>Basic Plan</span>
+            <span className={styles.dealPrice}>₹499</span>
+            <span className={styles.dealDesc}>Post 1 job, shortlist up to 10 candidates</span>
+          </div>
+          <div className={styles.dealRow}>
+            <span className={styles.dealName}>Pro Plan</span>
+            <span className={styles.dealPrice}>₹1499</span>
+            <span className={styles.dealDesc}>Post 5 jobs, shortlist up to 50 candidates, priority support</span>
+          </div>
+          <div className={styles.dealRow}>
+            <span className={styles.dealName}>Enterprise</span>
+            <span className={styles.dealPrice}>₹2999</span>
+            <span className={styles.dealDesc}>Unlimited jobs, unlimited candidates, dedicated manager</span>
+          </div>
+        </div>
+        <div className={styles.paymentInfo}>
+          <p>All payments are securely processed. Upgrade now to access advanced features and streamline your hiring!</p>
+        </div>
+        <Link href="/payment" className={styles.paymentLink}>
+          <button className={styles.paymentButton}>Go to Payment Page</button>
+        </Link>
       </div>
     </section>
     </div>
