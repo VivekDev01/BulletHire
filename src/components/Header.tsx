@@ -92,10 +92,7 @@ const Header = () => {
                 </nav>
             )}
             
-            {isAuthenticated && (pathname==='/' || pathname==='/home') &&
-                // <div >
-                //     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                // </div>
+            {isAuthenticated  &&
                 <div>
                     <button
                         className={styles.avatarButton}

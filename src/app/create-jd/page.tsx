@@ -9,9 +9,8 @@ const CenteredTextAreaPage = () => {
   const [jobRole, setJobRole] = useState('');
   const [skills, setSkills] = useState('');
   const [location, setLocation] = useState('');
-  const [experience, setExperience] = useState<number | undefined>()
-  const [education, setEducation] = useState('')
-
+  const [experience, setExperience] = useState('');
+  const [education, setEducation] = useState('');
 
   const handleSubmit = async () => {
     console.log('Job Role:', jobRole);
@@ -22,12 +21,12 @@ const CenteredTextAreaPage = () => {
           'role':jobRole,
           'location':location,
           'skills': skills,
-          'experience' : experience,
+          'experience': experience ? parseInt(experience, 10) : 0,
           'education': education,
-          'link' : "www.example.com"
+          'link':'www.example.com'
         },
         {
-          headers:{
+          headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         }
@@ -48,44 +47,64 @@ const CenteredTextAreaPage = () => {
         </div>
 
         <div className={styles.formWrapper}>
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="jobRole">Job Role</label>
             <input
+              id="jobRole"
               className={styles.input}
               type="text"
-              placeholder="Job Role (e.g. DevOps Engineer)"
+              placeholder="e.g. DevOps Engineer"
               value={jobRole}
               onChange={(e) => setJobRole(e.target.value)}
+              autoComplete="off"
             />
-
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="location">Location</label>
             <input
+              id="location"
               className={styles.input}
               type="text"
-              placeholder="Location (e.g. Bengaluru, India)"
+              placeholder="e.g. Bengaluru, India"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              autoComplete="off"
             />
-
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="education">Education</label>
             <input
+              id="education"
               className={styles.input}
               type="text"
-              placeholder="Education (e.g. B.tech)"
+              placeholder="e.g. B.Tech"
               value={education}
               onChange={(e) => setEducation(e.target.value)}
+              autoComplete="off"
             />
-
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="experience">Experience (Years)</label>
             <input
+              id="experience"
               className={styles.input}
               type="number"
-              placeholder="Experience in Years (e.g. 3)"
+              placeholder="e.g. 3"
               value={experience}
-              onChange={(e) => setExperience(Number(e.target.value))}
+              onChange={(e) => setExperience(e.target.value)}
+              min="0"
             />
-
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="skills">Keywords / Skills</label>
             <textarea
+              id="skills"
               className={styles.textArea}
-              placeholder="Keywords (e.g. Flask, React, etc.)"
+              placeholder="e.g. Flask, React, etc."
               value={skills}
               onChange={(e) => setSkills(e.target.value)}
             />
+          </div>
         </div>
 
         <div className={styles.bottomInfo}>
