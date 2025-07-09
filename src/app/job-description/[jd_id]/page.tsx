@@ -1,35 +1,52 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Layout from '@/components/Layout';
+import { useParams } from 'next/navigation';
+import axios from 'axios';
+import { url } from '@/config';
+
 
 const GeneratedJobDescriptionPage = () => {
+  const params = useParams();
+  const jd_id = params.jd_id as string;
+
   const [role, setRole] = useState('Data Scientist');
   const [isEditingRole, setIsEditingRole] = useState(false);
 
   const [location, setLocation] = useState('Bengaluru');
   const [isEditingLocation, setIsEditingLocation] = useState(false);
 
-  const [description, setDescription] = useState(
-`We are looking for a Data Scientist with expertise in Python, SQL, and Machine Learning. The ideal candidate should have a minimum of 3 years of experience in Python, SQL, and Machine Learning skills.
-
-Key Responsibilities:
-- Analyze large datasets to uncover trends, patterns, and insights
-- Develop machine learning models to predict outcomes and solve complex problems
-- Collaborate with cross-functional teams to drive data-driven decisions
-- Communicate findings and recommendations to stakeholders
-
-Requirements:
-- Bachelor's degree in Computer Science or related field
-- 3+ years of experience in Python, SQL, and Machine Learning
-- Strong analytical and problem-solving skills
-- Excellent communication and teamwork skills
-
-To apply for this position, please click on the following link: https://example.com/apply. 
-
-We look forward to receiving your application!`
-  );
+  const [description, setDescription] = useState('');
   const [isEditingDescription, setIsEditingDescription] = useState(false);
+
+
+
+  const getJobDescription = async (jd_id: string) => {
+    try {
+      const response = await axios.get(`${url}/get_jd/${jd_id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+      );
+      if (response.data) {
+        setRole(response.data.job.role);
+        setLocation(response.data.job.location);
+        setDescription(response.data.job.jd);
+      }
+    } catch (error) {
+      console.error('Error fetching job description:', error);
+    }
+  };
+  useEffect(() => {
+    if (jd_id) {
+      getJobDescription(jd_id);
+    }
+  }, [jd_id]);
+
+
 
   return (
     <Layout>
@@ -38,7 +55,7 @@ We look forward to receiving your application!`
             <h2 className={styles.heading}>Finalize Job Description</h2>
 
             {/* Job Role */}
-            <div className={styles.fieldGroup}>
+            {/* <div className={styles.fieldGroup}>
                 <label className={styles.label}>Job Role</label>
                 {isEditingRole ? (
                 <>
@@ -55,10 +72,10 @@ We look forward to receiving your application!`
                     <button onClick={() => setIsEditingRole(true)} className={styles.editBtn}>Edit</button>
                 </div>
                 )}
-            </div>
+            </div> */}
 
             {/* Location */}
-            <div className={styles.fieldGroup}>
+            {/* <div className={styles.fieldGroup}>
                 <label className={styles.label}>Location</label>
                 {isEditingLocation ? (
                 <>
@@ -75,7 +92,7 @@ We look forward to receiving your application!`
                     <button onClick={() => setIsEditingLocation(true)} className={styles.editBtn}>Edit</button>
                 </div>
                 )}
-            </div>
+            </div> */}
 
             {/* Description */}
             <div className={styles.fieldGroup}>
@@ -97,13 +114,32 @@ We look forward to receiving your application!`
                 )}
             </div>
 
-            <button className={styles.finalizeBtn} onClick={() => {
-                
-                // TODO: send to Flask backend via fetch/axios
-                }}>
+            <button 
+                className={styles.finalizeBtn} 
+                onClick={async () => {
+                    try{
+                        const response = await axios.post(`${url}/finalize_jd/${jd_id}`, {
+                            jd: description
+                        }, {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem('token')}`
+                            }
+                        });
+
+                        if (response.status === 200) {
+                            alert('Job description posted successfully!');
+                            window.location.href = `/home`;
+                        } else {
+                            console.error('Error finalizing job description:', response.data);
+                        }
+                    }
+                    catch(error){
+                        console.error('Error finalizing job description:', error);
+                    }
+                }}
+            >
                 Finalize & Post
             </button>
-
             </div>
         </div>
     </Layout>

@@ -1,3 +1,4 @@
+"use client";
 import React, {useEffect, useState} from 'react';
 import styles from './Header.module.css';
 import Link from 'next/link';
@@ -24,23 +25,35 @@ const Header = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                await axios.get(`${url}/api/get_user`, {
+                const response = await axios.get(`${url}/api/get_user`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
-                })
-                .then((response) => {
-                    setUserData({
-                        name: response.data.user.username,
-                        email: response.data.user.email,
-                        profilePicture: response.data.user.profilePicture || '/static/images/avatar/1.jpg',
-                        id: response.data.user.id
-                    });
-                }).catch((error) => {
-                    console.error('Error fetching user data:', error);
                 });
+                const user = response.data.user;
+                if (user) {
+                    setUserData({
+                        name: user.username || '',
+                        email: user.email || '',
+                        profilePicture: user.profilePicture || '',
+                        id: user.id || ''
+                    });
+                } else {
+                    setUserData({
+                        name: '',
+                        email: '',
+                        profilePicture: '',
+                        id: ''
+                    });
+                }
             } catch (error) {
-                console.error('Error in useEffect:', error);
+                console.error('Error fetching user data:', error);
+                setUserData({
+                    name: '',
+                    email: '',
+                    profilePicture: '',
+                    id: ''
+                });
             }
         };
         fetchUserData();
@@ -101,7 +114,7 @@ const Header = () => {
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
                     >
-                        <Avatar alt={userData.name} src="/static/images/avatar/1.jpg" />
+                        <Avatar alt={userData.name} src="" />
 
                     </button>
                     <Menu
