@@ -8,6 +8,7 @@ import Eye from '@mui/icons-material/Visibility';
 import EyeOff from '@mui/icons-material/VisibilityOff';
 import Link from 'next/link';
 import { url } from '../../config';
+import Layout from '@/components/Layout';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -32,11 +33,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={styles.authContainer}>
-      <div className={styles.card}>
-        <h2>Sign In</h2>
-        <input
-          type="email"
+    <Layout>
+      <div className={styles.authContainer}>
+        <div className={styles.card}>
+          <h2>Sign In</h2>
+          <input
+            type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -68,6 +70,7 @@ export default function LoginPage() {
           Don’t have an account? <Link className='Link'style={{ color: 'blue' }} href="/signup">Sign up</Link>
         </p>
       </div>
-    </div>
+      </div>
+    </Layout>
   );
 }

@@ -7,6 +7,7 @@ import Eye from '@mui/icons-material/Visibility';
 import EyeOff from '@mui/icons-material/VisibilityOff';
 import Link from 'next/link';
 import { url } from '../../config';
+import Layout from '@/components/Layout';
 
 export default function SignupPage() {
   const [username, setUsername] = useState('');
@@ -77,78 +78,80 @@ export default function SignupPage() {
   };
 
   return (
-    <div className={styles.authContainer}>
-      <div className={styles.card}>
-        <h2>Sign Up</h2>
-        <input
-          type="text"
-          placeholder="Name"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className={styles.input}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={styles.input}
-        />
-
-        <div className={styles.passwordWrapper}>
+    <Layout>
+      <div className={styles.authContainer}>
+        <div className={styles.card}>
+          <h2>Sign Up</h2>
           <input
-            type={passwordVisible ? 'text' : 'password'}
-            placeholder="Password"
-            value={password}
-            onChange={(e) => handlePasswordChange(e.target.value)}
+            type="text"
+            placeholder="Name"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className={styles.input}
           />
-          <button
-            type="button"
-            onClick={() => setPasswordVisible(!passwordVisible)}
-            className={styles.eyeIcon}
-          >
-            {passwordVisible ? <EyeOff /> : <Eye />}
-          </button>
-        </div>
-
-        <div className={styles.passwordWrapper}>
           <input
-            type={passwordVisible2 ? 'text' : 'password'}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => handlePasswordChange2(e.target.value)}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className={styles.input}
           />
-          <button
-            type="button"
-            onClick={() => setPasswordVisible2(!passwordVisible2)}
-            className={styles.eyeIcon}
-          >
-            {passwordVisible2 ? <EyeOff /> : <Eye />}
+
+          <div className={styles.passwordWrapper}>
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => handlePasswordChange(e.target.value)}
+              className={styles.input}
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className={styles.eyeIcon}
+            >
+              {passwordVisible ? <EyeOff /> : <Eye />}
+            </button>
+          </div>
+
+          <div className={styles.passwordWrapper}>
+            <input
+              type={passwordVisible2 ? 'text' : 'password'}
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => handlePasswordChange2(e.target.value)}
+              className={styles.input}
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible2(!passwordVisible2)}
+              className={styles.eyeIcon}
+            >
+              {passwordVisible2 ? <EyeOff /> : <Eye />}
+            </button>
+          </div>
+
+          {password && (
+            <p style={{ color: strength === 'Weak' ? 'red' : strength === 'Medium' ? 'orange' : 'green', marginBottom: '12px' }}>
+              Password Strength: {strength}
+            </p>
+          )}
+
+          {password && confirmPassword && password !== confirmPassword && (
+            <p style={{ color: 'red', marginBottom: '12px' }}>
+              Passwords do not match
+            </p>
+          )}
+
+          <button onClick={handleSubmit} className={styles.submitBtn}>
+            Sign Up
           </button>
+
+          <p className={styles.toggleText}>
+            Already have an account? <Link style={{color:'blue'}} href="/signin">Sign in</Link>
+          </p>
         </div>
-
-        {password && (
-          <p style={{ color: strength === 'Weak' ? 'red' : strength === 'Medium' ? 'orange' : 'green', marginBottom: '12px' }}>
-            Password Strength: {strength}
-          </p>
-        )}
-
-        {password && confirmPassword && password !== confirmPassword && (
-          <p style={{ color: 'red', marginBottom: '12px' }}>
-            Passwords do not match
-          </p>
-        )}
-
-        <button onClick={handleSubmit} className={styles.submitBtn}>
-          Sign Up
-        </button>
-
-        <p className={styles.toggleText}>
-          Already have an account? <Link style={{color:'blue'}} href="/signin">Sign in</Link>
-        </p>
       </div>
-    </div>
+    </Layout>
   );
 }

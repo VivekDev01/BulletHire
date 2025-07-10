@@ -18,6 +18,21 @@
   font-size: 24px;
   font-weight: 700;
   color: #2176ff;
+  cursor: pointer;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #383838;
+  font-weight: 600;
+  font-size: 1.08rem;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transition: background 0.16s, color 0.16s;
+}
+.navLink:hover {
+  background: #e3efff;
+  color: #2176ff;
 }
 
 .nav a {

@@ -12,8 +12,8 @@ import {url} from '../config'
 
 const Header = () => {
     const pathname = usePathname();
-    const isAuthenticated = true; 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const [userData, setUserData] = useState({
         name: '',
@@ -21,24 +21,42 @@ const Header = () => {
         profilePicture: '',
         id: ''
     });
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get(`${url}/api/get_user`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                const user = response.data.user;
-                if (user) {
-                    setUserData({
-                        name: user.username || '',
-                        email: user.email || '',
-                        profilePicture: user.profilePicture || '',
-                        id: user.id || ''
+        setMounted(true);
+        if (typeof window !== "undefined") {
+            setIsAuthenticated(!!localStorage.getItem('token'));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isAuthenticated && typeof window !== "undefined") {
+            const fetchUserData = async () => {
+                try {
+                    const response = await axios.get(`${url}/api/get_user`, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`
+                        }
                     });
-                } else {
+                    const user = response.data.user;
+                    if (user) {
+                        setUserData({
+                            name: user.username || '',
+                            email: user.email || '',
+                            profilePicture: user.profilePicture || '',
+                            id: user.id || ''
+                        });
+                    } else {
+                        setUserData({
+                            name: '',
+                            email: '',
+                            profilePicture: '',
+                            id: ''
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
                     setUserData({
                         name: '',
                         email: '',
@@ -46,20 +64,11 @@ const Header = () => {
                         id: ''
                     });
                 }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-                setUserData({
-                    name: '',
-                    email: '',
-                    profilePicture: '',
-                    id: ''
-                });
-            }
-        };
-        fetchUserData();
-    }, []);
-    
-    
+            };
+            fetchUserData();
+        }
+    }, [isAuthenticated]);
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -70,7 +79,7 @@ const Header = () => {
         try{
             axios.post(`${url}/api/logout`, {}, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${typeof window !== "undefined" ? localStorage.getItem('token') : ''}`
                 }
             }).then((response) => {
                 console.log('Logout successful:', response.data);
@@ -81,73 +90,82 @@ const Header = () => {
         catch (error) {
             console.error('Error in handleLogout:', error);
         }
-        console.log('Logging out...');
-        localStorage.removeItem('token');
-        console.log('Token removed from localStorage');
+        if (typeof window !== "undefined") {
+            localStorage.removeItem('token');
+        }
         setAnchorEl(null);
         window.location.href = '/signin';
     }
-    
 
-  return (
-    <div className={styles.container}>
-        <header className={styles.header}>
-            <div className={styles.logo}>
-                <span style={{color:"#383838"}}>Bullet</span>
-                <span style={{color:"#4184D6"}}>Hire</span>          
-            </div>
-            {pathname === '/' && (
-                <nav className={styles.nav}>
-                    <a href="#">Become a recruiter</a>
-                    <a href="#">Good deals</a>
-                    <a href="#how_it_works">How it work</a>
-                    <a href="#why_choose_us">Why choose us</a>
-                </nav>
-            )}
-            
-            {isAuthenticated  &&
-                <div>
-                    <button
-                        className={styles.avatarButton}
-                        aria-controls={open ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                    >
-                        <Avatar alt={userData.name} src="" />
+    if (!mounted) return null; // Prevent SSR mismatch
 
-                    </button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        slotProps={{
-                        list: {
-                            'aria-labelledby': 'basic-button',
-                        },
-                        }}
-                    >
-                        <MenuItem onClick={handleClose}>{userData.name}</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    </Menu>
+    return (
+        <div className={styles.container}>
+            <header className={styles.header}>
+                <div className={styles.logo} onClick={() => window.location.href = '/'}>
+                    <span style={{color:"#383838"}}>Bullet</span>
+                    <span style={{color:"#4184D6"}}>Hire</span>          
                 </div>
-            }   
-            {!isAuthenticated &&
-                <div className={styles.authButtons}>
-                    <Link href="/signin">
-                        <button className={styles.signIn} >Sign in</button>
-                    </Link>
-                    <Link href="/signup">
-                        <button className={styles.signUp}>Sign up</button>
-                    </Link>
-                </div>
+                {!isAuthenticated && pathname === '/' ? (
+                    <nav className={styles.nav}>
+                        <a href="#how_it_works" className={styles.navLink}>How it works</a>
+                        <a href="#why_choose_us" className={styles.navLink}>Why choose us</a>
+                        <a href="#become_recruiter" className={styles.navLink}>Become a recruiter</a>
+                        <a href="#good_deals" className={styles.navLink}>Good deals</a>
+                    </nav>
+                )
+                : pathname !== '/' && pathname !== '/signin' && pathname !== '/signup' &&
+                (
+                    <nav className={styles.nav}>
+                        <a href="/dashboard" className={styles.navLink}>Dashboard</a>
+                        <a href="/create-jd" className={styles.navLink}>Post Job</a>
+                        <a href="/nill" className={styles.navLink}>NILL</a>
+                        <a href="/nill" className={styles.navLink}>NILL</a>
+                    </nav>
+                )
             }
-        </header>
-    </div>
-
-  );
+                
+                {isAuthenticated  &&
+                    <div>
+                        <button
+                            className={styles.avatarButton}
+                            aria-controls={open ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                        >
+                            <Avatar alt={userData.name} src={userData.profilePicture || ""} />
+                        </button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            slotProps={{
+                            list: {
+                                'aria-labelledby': 'basic-button',
+                            },
+                            }}
+                        >
+                            <MenuItem onClick={handleClose}>{userData.name}</MenuItem>
+                            <MenuItem onClick={handleClose}>My account</MenuItem>
+                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                        </Menu>
+                    </div>
+                }   
+                {!isAuthenticated && pathname !== '/signin' && pathname !== '/signup' &&
+                    <div className={styles.authButtons}>
+                        <Link href="/signin">
+                            <button className={styles.signIn} >Sign in</button>
+                        </Link>
+                        <Link href="/signup">
+                            <button className={styles.signUp}>Sign up</button>
+                        </Link>
+                    </div>
+                }
+            </header>
+        </div>
+    );
 };
 
 export default Header;

@@ -10,37 +10,11 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import RocketIcon from '@mui/icons-material/Rocket';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import Link from 'next/link';
+import Layout from '@/components/Layout';
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>BulletHire | Apply for jobs & Hire Easily</title>
-        <meta name="description" content="Find, assess and hire easily" />
-      </Head>
-
-      <header className={styles.header}>
-        <div className={styles.logo}>
-          <span className={styles.logoMain}>Bullet</span>
-          <span className={styles.logoAccent}>Hire</span>
-        </div>
-        <nav className={styles.nav}>
-          <a href="#how_it_works" className={styles.navLink}>How it works</a>
-          <a href="#why_choose_us" className={styles.navLink}>Why choose us</a>
-          <a href="#become_recruiter" className={styles.navLink}>Become a recruiter</a>
-          <a href="#good_deals" className={styles.navLink}>Good deals</a>
-        </nav>
-        <div className={styles.authButtons}>
-          <Link href="/signin" className={styles.authLink}>
-            <button className={styles.signIn}>Sign in</button>
-          </Link>
-          <Link href="/signup" className={styles.authLink}>
-            <button className={styles.signUp}>Sign up</button>
-          </Link>
-        </div>
-      </header>
-
-
+    <Layout>
       <main className={styles.mainHero}>
         <div className={styles.heroContent}>
           <div className={styles.heroTextBlock}>
@@ -72,8 +46,6 @@ export default function Home() {
         </div>
       </main>
 
-    
-
       <section id="how_it_works" className={styles.howItWorks}>
         <div className={styles.sectionHeader}>
           <span className={styles.badge}>HOW IT WORKS</span>
@@ -98,112 +70,112 @@ export default function Home() {
         </div>
       </section>
 
-    <section id='why_choose_us' className={styles.container2}>
-      <div className={styles.imageWrapper}>
-        <Image
-          src="/images/hire_with_ai.jpeg"
-          alt="Hire with AI"
-          layout="intrinsic"
-          width={500}
-          height={200}
-          className={styles.girlImage2}
-        />
-      </div>
+      <section id='why_choose_us' className={styles.container2}>
+        <div className={styles.imageWrapper}>
+          <Image
+            src="/images/hire_with_ai.jpeg"
+            alt="Hire with AI"
+            layout="intrinsic"
+            width={500}
+            height={200}
+            className={styles.girlImage2}
+          />
+        </div>
 
-      <div className={styles.textContent}>
-        <button className={styles.tag}>WHY CHOOSE US</button>
-        <h2 className={styles.title}>
-          We offer the best experience <br /> with our platform
-        </h2>
+        <div className={styles.textContent}>
+          <button className={styles.tag}>WHY CHOOSE US</button>
+          <h2 className={styles.title}>
+            We offer the best experience <br /> with our platform
+          </h2>
 
-        <div className={styles.features}>
-          <div className={styles.featureItem}>
-            <div className={styles.iconBox2}>
-              <TipsAndUpdatesIcon />
+          <div className={styles.features}>
+            <div className={styles.featureItem}>
+              <div className={styles.iconBox2}>
+                <TipsAndUpdatesIcon />
+              </div>
+              <div className={styles.titleBox}>
+                <h4>Smarter Hiring, Simplified</h4>
+                <p>Leverage AI to cut through the noise and find the perfect candidate, every time.</p>
+              </div>
             </div>
+
+            <div className={styles.featureItem}>
+              <div className={styles.iconBox2}>
+                <LockOpenIcon />
+              </div>
+              <div className={styles.titleBox}>
+                <h4>Unbiased Talent, Unlocked</h4>
+                <p>Eliminate human bias with AI-driven assessments, ensuring fair and diverse hiring.</p>
+              </div>
+            </div>
+
+            <div className={styles.featureItem}>
+              <div className={styles.iconBox2}>
+                <RocketIcon />
+              </div>
             <div className={styles.titleBox}>
-              <h4>Smarter Hiring, Simplified</h4>
-              <p>Leverage AI to cut through the noise and find the perfect candidate, every time.</p>
+                <h4>Hire Faster, Hire Better</h4>
+                <p>Accelerate your recruitment process with AI that identifies top talent quickly and accurately.</p>
+              </div>
             </div>
-          </div>
 
-          <div className={styles.featureItem}>
-            <div className={styles.iconBox2}>
-              <LockOpenIcon />
-            </div>
-            <div className={styles.titleBox}>
-              <h4>Unbiased Talent, Unlocked</h4>
-              <p>Eliminate human bias with AI-driven assessments, ensuring fair and diverse hiring.</p>
-            </div>
-          </div>
-
-          <div className={styles.featureItem}>
-            <div className={styles.iconBox2}>
-              <RocketIcon />
-            </div>
-           <div className={styles.titleBox}>
-              <h4>Hire Faster, Hire Better</h4>
-              <p>Accelerate your recruitment process with AI that identifies top talent quickly and accurately.</p>
-            </div>
-          </div>
-
-          <div className={styles.featureItem}>
-            <div className={styles.iconBox2}>
-              <AutoAwesomeIcon />
-            </div>
-            <div className={styles.titleBox}>
-              <h4>Beyond Resumes, True Potential</h4>
-              <p>Discover hidden talent and evaluate skills objectively with our advanced AI analysis.</p>
+            <div className={styles.featureItem}>
+              <div className={styles.iconBox2}>
+                <AutoAwesomeIcon />
+              </div>
+              <div className={styles.titleBox}>
+                <h4>Beyond Resumes, True Potential</h4>
+                <p>Discover hidden talent and evaluate skills objectively with our advanced AI analysis.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="become_recruiter" className={styles.becomeRecruiterSection}>
-      <div className={styles.becomeRecruiterContent}>
-        <h2>Become a Recruiter</h2>
-        <p>
-          Join BulletHire as a recruiter and start finding the best talent effortlessly. 
-          Post your job requirements, let our AI shortlist candidates, and streamline your hiring process.
-        </p>
-        <Link href="/create-jd" className={styles.becomeRecruiterLink}>
-          <button className={styles.becomeRecruiterButton}>
-            Create Job Description
-          </button>
-        </Link>
-      </div>
-    </section>
+      <section id="become_recruiter" className={styles.becomeRecruiterSection}>
+        <div className={styles.becomeRecruiterContent}>
+          <h2>Become a Recruiter</h2>
+          <p>
+            Join BulletHire as a recruiter and start finding the best talent effortlessly. 
+            Post your job requirements, let our AI shortlist candidates, and streamline your hiring process.
+          </p>
+          <Link href="/create-jd" className={styles.becomeRecruiterLink}>
+            <button className={styles.becomeRecruiterButton}>
+              Create Job Description
+            </button>
+          </Link>
+        </div>
+      </section>
 
-    <section id="good_deals" className={styles.goodDealsSection}>
-      <div className={styles.goodDealsContent}>
-        <h2>Good Deals</h2>
-        <p>Unlock premium features and boost your hiring process with our exclusive deals!</p>
-        <div className={styles.dealsTable}>
-          <div className={styles.dealRow}>
-            <span className={styles.dealName}>Basic Plan</span>
-            <span className={styles.dealPrice}>₹499</span>
-            <span className={styles.dealDesc}>Post 1 job, shortlist up to 10 candidates</span>
+      <section id="good_deals" className={styles.goodDealsSection}>
+        <div className={styles.goodDealsContent}>
+          <h2>Good Deals</h2>
+          <p>Unlock premium features and boost your hiring process with our exclusive deals!</p>
+          <div className={styles.dealsTable}>
+            <div className={styles.dealRow}>
+              <span className={styles.dealName}>Basic Plan</span>
+              <span className={styles.dealPrice}>₹499</span>
+              <span className={styles.dealDesc}>Post 1 job, shortlist up to 10 candidates</span>
+            </div>
+            <div className={styles.dealRow}>
+              <span className={styles.dealName}>Pro Plan</span>
+              <span className={styles.dealPrice}>₹1499</span>
+              <span className={styles.dealDesc}>Post 5 jobs, shortlist up to 50 candidates, priority support</span>
+            </div>
+            <div className={styles.dealRow}>
+              <span className={styles.dealName}>Enterprise</span>
+              <span className={styles.dealPrice}>₹2999</span>
+              <span className={styles.dealDesc}>Unlimited jobs, unlimited candidates, dedicated manager</span>
+            </div>
           </div>
-          <div className={styles.dealRow}>
-            <span className={styles.dealName}>Pro Plan</span>
-            <span className={styles.dealPrice}>₹1499</span>
-            <span className={styles.dealDesc}>Post 5 jobs, shortlist up to 50 candidates, priority support</span>
+          <div className={styles.paymentInfo}>
+            <p>All payments are securely processed. Upgrade now to access advanced features and streamline your hiring!</p>
           </div>
-          <div className={styles.dealRow}>
-            <span className={styles.dealName}>Enterprise</span>
-            <span className={styles.dealPrice}>₹2999</span>
-            <span className={styles.dealDesc}>Unlimited jobs, unlimited candidates, dedicated manager</span>
-          </div>
+          <Link href="/payment" className={styles.paymentLink}>
+            <button className={styles.paymentButton}>Go to Payment Page</button>
+          </Link>
         </div>
-        <div className={styles.paymentInfo}>
-          <p>All payments are securely processed. Upgrade now to access advanced features and streamline your hiring!</p>
-        </div>
-        <Link href="/payment" className={styles.paymentLink}>
-          <button className={styles.paymentButton}>Go to Payment Page</button>
-        </Link>
-      </div>
-    </section>
-    </div>
+      </section>
+    </Layout>
   );
 }
