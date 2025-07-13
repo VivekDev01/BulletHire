@@ -118,7 +118,11 @@ const FeedPage = () => {
                   onClick={() => handleLike(post._id)}
                   aria-label="Like"
                 >
-                  <ThumbsUp size={18} />
+                  {
+                    post.interactions.likes.includes(localStorage.getItem("userId") || "") ?
+                    <ThumbsUp size={18} fill='blue' /> :
+                    <ThumbsUp size={18} />
+                  }
                   <span>{post.interactions.likes.length}</span>
                 </button>
                 <button

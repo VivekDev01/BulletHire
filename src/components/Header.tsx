@@ -45,8 +45,9 @@ const Header = () => {
                             name: user.username || '',
                             email: user.email || '',
                             profilePicture: user.profilePicture || '',
-                            id: user.id || ''
+                            id: user._id || ''
                         });
+                        localStorage.setItem('userId', user._id || '');
                     } else {
                         setUserData({
                             name: '',
