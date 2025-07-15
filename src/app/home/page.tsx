@@ -41,6 +41,8 @@ const FeedPage = () => {
   const [showAllComments, setShowAllComments] = useState<{ [key: string]: boolean }>({});
   const [replyText, setReplyText] = useState<{ [key: string]: string }>({});
   const [showReplyInput, setShowReplyInput] = useState<{ [key: string]: boolean }>({});
+  // For showing replies: { [postId_commentIdx]: boolean }
+  const [showReplies, setShowReplies] = useState<{ [key: string]: boolean }>({});
 
   const getPosts = async () => {
     try {
@@ -149,9 +151,6 @@ const FeedPage = () => {
     setAnchorEl(null);
     setContextMenuInfo(null);
   };
-
-
-
 
   return (
     <Layout>
@@ -262,11 +261,43 @@ const FeedPage = () => {
                                 <span className={styles.commentLikeIcon}>👍</span> Like
                                 {c.likes.length > 0 && ` (${c.likes.length})`}
                               </button>
-                              <button className={styles.commentActionBtn} onClick={() => handleReplyClick(post._id, c, idx)}>
+                              <button
+                                className={styles.commentActionBtn}
+                                onClick={() => {
+                                  if (c.replies.length > 0) {
+                                    setShowReplies(prev => ({ ...prev, [replyKey]: !prev[replyKey] }));
+                                  } else {
+                                    setShowReplyInput(prev => ({ ...prev, [replyKey]: !prev[replyKey] }));
+                                  }
+                                }}
+                              >
                                 <span className={styles.commentReplyIcon}>💬</span> Reply
-                                {c.replies.length > 0 && ` (${c.replies.length})`}
+                                {c.replies.length > 0 && (
+                                  <span
+                                    className={styles.replyCount}
+                                    style={{ cursor: 'pointer', marginLeft: 2 }}
+                                  >
+                                    ({c.replies.length})
+                                  </span>
+                                )}
                               </button>
                             </div>
+                            {showReplies[replyKey] && c.replies && c.replies.length > 0 && (
+                              <div className={styles.repliesContainer}>
+                                {c.replies.map((reply: any, ridx: number) => (
+                                  <div key={ridx} className={styles.replyBox}>
+                                    <div className={styles.replyAvatar}>{reply.username ? reply.username[0].toUpperCase() : 'U'}</div>
+                                    <div className={styles.replyContent}>
+                                      <div className={styles.replyHeader}>
+                                        <span className={styles.replyUser}>{reply.username}</span>
+                                        <span className={styles.replyDate}>{reply.created_at ? new Date(reply.created_at).toLocaleString() : ''}</span>
+                                      </div>
+                                      <div className={styles.replyText}>{reply.comment || reply.reply}</div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                             {showReplyInput[replyKey] && (
                               <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
                                 <input
