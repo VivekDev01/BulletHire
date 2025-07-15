@@ -6,6 +6,18 @@ import { ThumbsUp, MessageCircle, Share2, ImageIcon, VideoIcon, TextIcon } from 
 import Layout from '@/components/Layout';
 import { url } from "@/config";
 import axios from 'axios';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
+type Comment = {
+  _id: string;
+  user_id: string;
+  username: string;
+  comment: string;
+  created_at: string;
+  likes: string[];
+  replies: any[];
+};
 
 type Post = {
   _id: string;
@@ -17,7 +29,7 @@ type Post = {
   content: string;
   interactions: {
     likes: string[];
-    comments: { user: string; text: string }[];
+    comments: Comment[];
     shares: string[];
   };
 };
@@ -26,6 +38,9 @@ const FeedPage = () => {
   const [postText, setPostText] = useState('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [commentText, setCommentText] = useState<{ [key: string]: string }>({});
+  const [showAllComments, setShowAllComments] = useState<{ [key: string]: boolean }>({});
+  const [replyText, setReplyText] = useState<{ [key: string]: string }>({});
+  const [showReplyInput, setShowReplyInput] = useState<{ [key: string]: boolean }>({});
 
   const getPosts = async () => {
     try {
@@ -36,7 +51,6 @@ const FeedPage = () => {
       });
       setPosts(response.data.posts);
     } catch (error) {
-      // handle error
     }
   };
 
@@ -70,7 +84,7 @@ const FeedPage = () => {
     const text = commentText[postId];
     if (!text || !text.trim()) return;
     try {
-      await axios.post(`${url}/comment_post`, { post_id: postId, text }, {
+      await axios.post(`${url}/comment_post`, { post_id: postId, comment: text }, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
@@ -79,6 +93,65 @@ const FeedPage = () => {
       getPosts();
     } catch (error) {}
   };
+
+
+  const handleLikeComment = async (postId: string, comment: any) => {
+    if (!comment._id) return;
+    try {
+      await axios.post(`${url}/like_comment`, { post_id: postId, comment_id: comment._id }, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      getPosts();
+    } catch (error) {}
+  };
+
+  const handleReplyClick = (postId: string, comment: any, idx: number) => {
+    const key = `${postId}_${idx}`;
+    setShowReplyInput(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handlePostReply = async (postId: string, comment: any, idx: number) => {
+    const key = `${postId}_${idx}`;
+    const text = replyText[key];
+    if (!text || !text.trim() || !comment._id) return;
+    try {
+      await axios.post(`${url}/reply_comment`, { post_id: postId, comment_id: comment._id, reply: text }, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      setReplyText(prev => ({ ...prev, [key]: '' }));
+      setShowReplyInput(prev => ({ ...prev, [key]: false }));
+      getPosts();
+    } catch (error) {}
+  };
+
+  const handleDeleteComment = async (postId: string, commentId: string) => {
+    try {
+      await axios.delete(`${url}/delete_comment`, {
+        data: { post_id: postId, comment_id: commentId },
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      getPosts();
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  };
+
+  // For context menu (delete comment)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [contextMenuInfo, setContextMenuInfo] = useState<{ postId: string, commentId: string } | null>(null);
+  const handleClose = () => {
+    setAnchorEl(null);
+    setContextMenuInfo(null);
+  };
+
+
+
 
   return (
     <Layout>
@@ -106,7 +179,7 @@ const FeedPage = () => {
                 </div>
                 <div>
                   <div className={styles.username}>{post.user.username}</div>
-                  <div className={styles.email}>{post.user.email}</div>
+                  <div className={styles.postDate}>{post._id ? new Date(parseInt(post._id.substring(0,8), 16) * 1000).toLocaleString() : ''}</div>
                 </div>
               </div>
               <div className={styles.postContent}>
@@ -128,8 +201,7 @@ const FeedPage = () => {
                 <button
                   className={styles.actionBtn}
                   aria-label="Comment"
-                  onClick={() => {
-                  }}
+                  onClick={() => {}}
                 >
                   <MessageCircle size={18} />
                   <span>{post.interactions.comments.length}</span>
@@ -143,30 +215,119 @@ const FeedPage = () => {
                   <span>{post.interactions.shares.length}</span>
                 </button>
               </div>
-              {/* Comments Section */}
+              <div className={styles.commentBox}>
+                <input
+                  className={styles.commentInput}
+                  type="text"
+                  placeholder="Write a comment..."
+                  value={commentText[post._id] || ''}
+                  onChange={e =>
+                    setCommentText(prev => ({ ...prev, [post._id]: e.target.value }))
+                  }
+                />
+                <button
+                  className={styles.commentBtn}
+                  onClick={() => handleComment(post._id)}
+                >
+                  Post
+                </button>
+              </div>
               <div className={styles.commentsSection}>
-                {post.interactions.comments.map((c, idx) => (
-                  <div key={idx} className={styles.comment}>
-                    <span className={styles.commentUser}>{c.user}:</span> {c.text}
+                {post.interactions.comments && post.interactions.comments.length > 0 && (
+                  <div className={styles.commentsContainer}>
+                    {(showAllComments[post._id] ? post.interactions.comments : post.interactions.comments.slice(0, 1)).map((c, idx) => {
+                      const replyKey = `${post._id}_${idx}`;
+                      // Only allow delete for own comments
+                      const isOwnComment = c.user_id === (typeof window !== 'undefined' ? localStorage.getItem('userId') : undefined);
+                      return (
+                        <div
+                          key={idx}
+                          className={styles.topCommentBox}
+                          onContextMenu={isOwnComment ? (e) => {
+                            e.preventDefault();
+                            setAnchorEl(e.currentTarget);
+                            setContextMenuInfo({ postId: post._id, commentId: c._id });
+                          } : undefined}
+                          style={{ cursor: isOwnComment ? 'context-menu' : 'default' }}
+                        >
+                          <div className={styles.topCommentAvatar}>{c.username ? c.username[0].toUpperCase() : 'U'}</div>
+                          <div className={styles.topCommentContent}>
+                            <div className={styles.topCommentHeader}>
+                              <span className={styles.topCommentUser}>{c.username}</span>
+                              <span className={styles.topCommentDate}>{c.created_at ? new Date(c.created_at).toLocaleString() : ''}</span>
+                            </div>
+                            <div className={styles.topCommentText}>{c.comment}</div>
+                            <div className={styles.topCommentActions}>
+                              <button className={styles.commentActionBtn} onClick={() => handleLikeComment(post._id, c)}>
+                                <span className={styles.commentLikeIcon}>👍</span> Like
+                                {c.likes.length > 0 && ` (${c.likes.length})`}
+                              </button>
+                              <button className={styles.commentActionBtn} onClick={() => handleReplyClick(post._id, c, idx)}>
+                                <span className={styles.commentReplyIcon}>💬</span> Reply
+                                {c.replies.length > 0 && ` (${c.replies.length})`}
+                              </button>
+                            </div>
+                            {showReplyInput[replyKey] && (
+                              <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+                                <input
+                                  className={styles.commentInput}
+                                  type="text"
+                                  placeholder="Write a reply..."
+                                  value={replyText[replyKey] || ''}
+                                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReplyText(prev => ({ ...prev, [replyKey]: e.target.value }))}
+                                />
+                                <button
+                                  className={styles.commentBtn}
+                                  onClick={() => handlePostReply(post._id, c, idx)}
+                                >
+                                  Post
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                    {post.interactions.comments.length > 1 && !showAllComments[post._id] && (
+                      <button
+                        className={styles.showMoreBtn}
+                        onClick={() => setShowAllComments(prev => ({ ...prev, [post._id]: true }))}
+                      >
+                        Show {post.interactions.comments.length - 1} more comment{post.interactions.comments.length - 1 > 1 ? 's' : ''}
+                      </button>
+                    )}
+                    {post.interactions.comments.length > 1 && showAllComments[post._id] && (
+                      <button
+                        className={styles.showMoreBtn}
+                        onClick={() => setShowAllComments(prev => ({ ...prev, [post._id]: false }))}
+                      >
+                        Show less comments
+                      </button>
+                    )}
                   </div>
-                ))}
-                <div className={styles.commentBox}>
-                  <input
-                    className={styles.commentInput}
-                    type="text"
-                    placeholder="Write a comment..."
-                    value={commentText[post._id] || ''}
-                    onChange={e =>
-                      setCommentText(prev => ({ ...prev, [post._id]: e.target.value }))
-                    }
-                  />
-                  <button
-                    className={styles.commentBtn}
-                    onClick={() => handleComment(post._id)}
+                )}
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  slotProps={{
+                    list: {
+                      'aria-labelledby': '#basic-button',
+                    },
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      if (contextMenuInfo) {
+                        handleDeleteComment(contextMenuInfo.postId, contextMenuInfo.commentId);
+                        handleClose();
+                      }
+                    }}
                   >
-                    Post
-                  </button>
-                </div>
+                    Delete
+                  </MenuItem>
+                </Menu>
               </div>
             </div>
           ))}

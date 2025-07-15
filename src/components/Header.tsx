@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Header.module.css';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -22,6 +22,7 @@ const Header = () => {
         id: ''
     });
     const [mounted, setMounted] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         setMounted(true);
@@ -148,7 +149,7 @@ const Header = () => {
                             },
                             }}
                         >
-                            <MenuItem onClick={handleClose}>{userData.name}</MenuItem>
+                            <MenuItem onClick={() => router.push(`/profile/${userData.id}`)}>{userData.name}</MenuItem>
                             <MenuItem onClick={handleClose}>My account</MenuItem>
                             <MenuItem onClick={handleLogout}>Logout</MenuItem>
                         </Menu>
