@@ -202,6 +202,24 @@ const MyComponent = () => {
     }));
   };
 
+  const addExperienceToBackend = async () => {
+    try {
+      let experience = userData.experience;
+      const res = await axios.post(`${url}/add_experience`, {'experience':experience},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      )
+      if(res.data.success){
+        console.log('experience added successfully');
+      }
+    } catch (error) {
+      console.log(`error while adding experience: ${error}`)
+    }
+  }
+
   const updateExperience = (id: string, field: keyof Experience, value: string | boolean) => {
     setUserData(prev => ({
       ...prev,
@@ -469,6 +487,7 @@ const MyComponent = () => {
                       </label>
                     </div>
                     <textarea
+                          style={{color:'black'}}
                       placeholder="Description"
                       value={exp.description}
                       onChange={(e) => updateExperience(exp.id, 'description', e.target.value)}
@@ -479,6 +498,13 @@ const MyComponent = () => {
                     onClick={() => removeExperience(exp.id)}
                   >
                     Remove
+                  </button>
+                  <button 
+                    style={{marginLeft:"20px"}}
+                    className={styles.addBtn}
+                    onClick={() => addExperienceToBackend()}
+                  >
+                    Add
                   </button>
                 </div>
               ))}

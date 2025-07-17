@@ -294,6 +294,7 @@
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  color: black;
 }
 
 .fieldRow textarea {
@@ -303,6 +304,7 @@
   border-radius: 4px;
   resize: vertical;
   min-height: 80px;
+  color: black;
 }
 
 .checkbox {
@@ -310,6 +312,7 @@
   align-items: center;
   gap: 5px;
   white-space: nowrap;
+  color: black;
 }
 
 .checkbox input {
