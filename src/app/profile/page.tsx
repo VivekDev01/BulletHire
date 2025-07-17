@@ -396,7 +396,7 @@ const MyComponent = () => {
           <div className={styles.resumeSection}>
             {userData.resume ? (
               <div className={styles.resumeItem}>
-                <span>📄 Resume.pdf</span>
+                <span>{userData['resume'].split('/media/68570f5948d0edb55b27e09f/resumes/')}</span>
                 <button className={styles.updateBtn}>Update Resume</button>
               </div>
             ) : (
