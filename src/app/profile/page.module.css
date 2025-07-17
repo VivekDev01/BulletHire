@@ -1,0 +1,640 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Profile Completion Badge */
+.completionBadge {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.completionCircle {
+  position: relative;
+  margin-right: 20px;
+}
+
+.completionFill {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.completionInner {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.completionText {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.completionInfo h3 {
+  margin: 0 0 5px 0;
+  font-size: 20px;
+}
+
+.completionInfo p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 14px;
+}
+
+/* Section Styling */
+.section {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f5f5f5;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Button Styles */
+.editBtn, .addBtn, .uploadBtn, .updateBtn, .removeBtn, .changePasswordBtn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.editBtn {
+  background: #4CAF50;
+  color: white;
+}
+
+.editBtn:hover {
+  background: #45a049;
+}
+
+.addBtn {
+  background: #2196F3;
+  color: white;
+}
+
+.addBtn:hover {
+  background: #1976D2;
+}
+
+.uploadBtn {
+  background: #FF9800;
+  color: white;
+}
+
+.uploadBtn:hover {
+  background: #F57C00;
+}
+
+.updateBtn {
+  background: #9C27B0;
+  color: white;
+}
+
+.updateBtn:hover {
+  background: #7B1FA2;
+}
+
+.removeBtn {
+  background: #f44336;
+  color: white;
+}
+
+.removeBtn:hover {
+  background: #d32f2f;
+}
+
+.changePasswordBtn {
+  background: #607D8B;
+  color: white;
+  margin-left: 10px;
+}
+
+.changePasswordBtn:hover {
+  background: #455A64;
+}
+
+/* Personal Information */
+.personalInfo {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.profilePictureSection {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.profilePicture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profilePicture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholderPicture {
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.placeholderPicture span {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.placeholderPicture p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.infoFields {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.field input {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #2196F3;
+}
+
+.field input:disabled {
+  background: #f9f9f9;
+  color: #666;
+}
+
+/* Resume Section */
+.resumeSection {
+  text-align: center;
+}
+
+.resumeItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.resumeItem span {
+  font-weight: 500;
+}
+
+/* Experience Section */
+.experienceList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.experienceItem {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background: #fafafa;
+}
+
+.experienceFields {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fieldRow {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.fieldRow input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.fieldRow textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.checkbox input {
+  flex: none;
+}
+
+/* Skills Section */
+.skillsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.skillsInput {
+  position: relative;
+}
+
+.skillsInput input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.skillsDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.skillOption {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.skillOption:hover {
+  background: #f5f5f5;
+}
+
+.skillOption:last-child {
+  border-bottom: none;
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skillTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.skillTag button {
+  background: none;
+  border: none;
+  color: #1976d2;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.skillTag button:hover {
+  background: rgba(25, 118, 210, 0.1);
+}
+
+/* Courses Section */
+.coursesList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.courseItem {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background: #fafafa;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.courseFields {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.courseFields input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.courseFields input:nth-child(3),
+.courseFields input:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+/* Certifications Section */
+.certificationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.certificationItem {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background: #fafafa;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.certificationFields {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.certificationFields input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.certificationFields input:nth-child(5) {
+  grid-column: 1 / -1;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.emptyState p {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .personalInfo {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profilePictureSection {
+    flex: none;
+  }
+  
+  .infoFields {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  
+  .completionBadge {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .completionCircle {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .sectionHeader {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .fieldRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .courseFields,
+  .certificationFields {
+    grid-template-columns: 1fr;
+  }
+  
+  .courseItem,
+  .certificationItem {
+    flex-direction: column;
+  }
+  
+  .experienceItem {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 20px 15px;
+  }
+  
+  .sectionHeader h2 {
+    font-size: 20px;
+  }
+  
+  .completionBadge {
+    padding: 15px;
+  }
+  
+  .completionFill {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .completionInner {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .completionText {
+    font-size: 14px;
+  }
+  
+  .profilePicture {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* Animation for smooth transitions */
+.section {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus styles for better accessibility */
+.editBtn:focus,
+.addBtn:focus,
+.uploadBtn:focus,
+.updateBtn:focus,
+.removeBtn:focus,
+.changePasswordBtn:focus {
+  outline: 2px solid #2196F3;
+  outline-offset: 2px;
+}
+
+/* Improved form styling */
+.field input:focus,
+.experienceFields input:focus,
+.experienceFields textarea:focus,
+.courseFields input:focus,
+.certificationFields input:focus {
+  border-color: #2196F3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+/* Loading state styles (for future use) */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Success message styles (for future use) */
+.successMessage {
+  background: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Error message styles (for future use) */
+.errorMessage {
+  background: #f44336;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+}

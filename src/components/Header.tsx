@@ -104,7 +104,7 @@ const Header = () => {
     return (
         <div className={styles.container}>
             <header className={styles.header}>
-                <div className={styles.logo} onClick={() => window.location.href = '/'}>
+                <div className={styles.logo} onClick={() => router.push('/')}>
                     <span style={{color:"#383838"}}>Bullet</span>
                     <span style={{color:"#4184D6"}}>Hire</span>          
                 </div>
