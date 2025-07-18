@@ -160,22 +160,52 @@ const MyComponent = () => {
     }
   };
 
-  const handleAddSkill = (skill: string) => {
-    if (skill && !userData.skills.includes(skill)) {
-      setUserData(prev => ({
-        ...prev,
-        skills: [...prev.skills, skill]
-      }));
+  const handleAddSkill = async (skill: string) => {
+    // if (skill && !userData.skills.includes(skill)) {
+    //   setUserData(prev => ({
+    //     ...prev,
+    //     skills: [...prev.skills, skill]
+    //   }));
+    // }
+    // setNewSkill('');
+    // setShowSkillDropdown(false);
+    try {
+      const res = await axios.post(`${url}/add_skill`, {'skill': skill}, 
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      )
+      if(res.data.success){
+        fetchUserData();
+        setNewSkill('');
+        setShowSkillDropdown(false);
+      }
+    } catch (error) {
+      console.log("error while adding a skill", error);
     }
-    setNewSkill('');
-    setShowSkillDropdown(false);
   };
 
-  const handleRemoveSkill = (skillToRemove: string) => {
-    setUserData(prev => ({
-      ...prev,
-      skills: prev.skills.filter(skill => skill !== skillToRemove)
-    }));
+  const handleRemoveSkill = async (skillToRemove: string) => {
+    // setUserData(prev => ({
+    //   ...prev,
+    //   skills: prev.skills.filter(skill => skill !== skillToRemove)
+    // }));
+    try {
+      const res = await axios.post(`${url}/remove_skill`, {'skill': skillToRemove},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      )
+      if(res.data.success){
+        fetchUserData();
+      }
+    } catch (error) {
+      console.log('error while removing the skill', error)
+    }
   };
 
   const handleSkillSearch = (value: string) => {
