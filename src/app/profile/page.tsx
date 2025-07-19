@@ -289,6 +289,22 @@ const MyComponent = () => {
     }));
   };
 
+  const handleAddCourse = async () =>{
+    try {
+      const res= await axios.post(`${url}/add_course`, {'courses': userData['courses']}, 
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      if(res.data.success){
+        fetchUserData();
+      }
+    } catch (error) {
+      console.log("error while adding courses", error);
+    }
+  }
+
   const removeCourse = (id: string) => {
     setUserData(prev => ({
       ...prev,
@@ -326,6 +342,22 @@ const MyComponent = () => {
       certifications: prev.certifications.filter(cert => cert.id !== id)
     }));
   };
+
+  const handleAddCertification = async () =>{
+    try {
+      const res= await axios.post(`${url}/add_certification`, {'certifications': userData['certifications']}, 
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      if(res.data.success){
+        fetchUserData();
+      }
+    } catch (error) {
+      console.log("error while adding certifications", error);
+    }
+  }
 
   const completionPercentage = calculateProfileCompletion();
 
@@ -643,6 +675,12 @@ const MyComponent = () => {
                   >
                     Remove
                   </button>
+                  <button 
+                    className={styles.addBtn}
+                    onClick={() => handleAddCourse()}
+                  >
+                    Add
+                  </button>
                 </div>
               ))}
             </div>
@@ -706,6 +744,12 @@ const MyComponent = () => {
                     onClick={() => removeCertification(cert.id)}
                   >
                     Remove
+                  </button>
+                  <button 
+                    className={styles.addBtn}
+                    onClick={() => handleAddCertification()}
+                  >
+                    Add
                   </button>
                 </div>
               ))}

@@ -437,6 +437,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
+  color: #333;
 }
 
 .courseFields input:nth-child(3),
@@ -474,6 +475,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
+  color: #333;
 }
 
 .certificationFields input:nth-child(5) {
