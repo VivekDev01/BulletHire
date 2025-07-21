@@ -390,7 +390,24 @@ const MyComponent = () => {
             <h2>Personal Information</h2>
             <button 
               className={styles.editBtn}
-              onClick={() => setEditMode(prev => ({ ...prev, personal: !prev.personal }))}
+              onClick={async () => {
+                if(!editMode.personal){
+                  setEditMode(prev => ({ ...prev, personal: !prev.personal }))
+                }else{
+                  try {
+                    const res = await axios.post(`${url}/edit_user_data`, {'userData': userData}, 
+                      {
+                        headers: {
+                          Authorization: `Bearer ${localStorage.getItem('token')}`
+                        }
+                      }
+                    )
+                    if(res.data.success) fetchUserData()
+                  } catch (error) {
+                    console.log("error while saving user data", error)
+                  }
+                }
+              }}
             >
               {editMode.personal ? 'Save' : 'Edit'}
             </button>
