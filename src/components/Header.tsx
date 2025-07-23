@@ -149,7 +149,7 @@ const Header = () => {
                             },
                             }}
                         >
-                            <MenuItem onClick={() => router.push(`/profile/${userData.id}`)}>{userData.name}</MenuItem>
+                            <MenuItem onClick={() => router.push(`/profile`)}>{userData.name}</MenuItem>
                             <MenuItem onClick={handleClose}>My account</MenuItem>
                             <MenuItem onClick={handleLogout}>Logout</MenuItem>
                         </Menu>
