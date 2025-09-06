@@ -1,0 +1,302 @@
+/* Complete Markdown Content Styles */
+.markdown_content {
+  line-height: 1.6;
+  color: #333;
+  max-width: none;
+}
+
+/* Headings */
+.markdown_content h1 {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.markdown_content h2 {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  margin-top: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.25rem;
+}
+
+.markdown_content h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.markdown_content h4 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+.markdown_content h5 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  margin-top: 0.75rem;
+}
+
+.markdown_content h6 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  margin-top: 0.75rem;
+  color: #6b7280;
+}
+
+/* Paragraphs */
+.markdown_content p {
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+/* Links */
+.markdown_content a {
+  color: #3b82f6;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown_content a:hover {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+/* Lists */
+.markdown_content ul {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  list-style-type: disc;
+}
+
+.markdown_content ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  list-style-type: decimal;
+}
+
+.markdown_content li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown_content li > p {
+  margin: 0;
+}
+
+.markdown_content li > ul,
+.markdown_content li > ol {
+  margin: 0.5rem 0;
+}
+
+/* Nested lists */
+.markdown_content ul ul {
+  list-style-type: circle;
+}
+
+.markdown_content ul ul ul {
+  list-style-type: square;
+}
+
+/* Task lists (checkboxes) */
+.markdown_content input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Blockquotes */
+.markdown_content blockquote {
+  border-left: 4px solid #d1d5db;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #6b7280;
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.375rem;
+}
+
+.markdown_content blockquote p {
+  margin: 0;
+}
+
+.markdown_content blockquote > p:first-child {
+  margin-top: 0;
+}
+
+.markdown_content blockquote > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Code */
+.markdown_content code {
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875em;
+  color: #dc2626;
+  white-space: pre-wrap;
+}
+
+/* Code blocks */
+.markdown_content pre {
+  background-color: #1f2937;
+  color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.markdown_content pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* Tables */
+.markdown_content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  border: 1px solid #e5e7eb;
+}
+
+.markdown_content th,
+.markdown_content td {
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.markdown_content th {
+  background-color: #f9fafb;
+  font-weight: bold;
+}
+
+.markdown_content tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.markdown_content tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* Horizontal Rule */
+.markdown_content hr {
+  border: none;
+  height: 2px;
+  background-color: #e5e7eb;
+  margin: 2rem 0;
+}
+
+/* Images */
+.markdown_content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+/* Strong and emphasis */
+.markdown_content strong {
+  font-weight: bold;
+}
+
+.markdown_content em {
+  font-style: italic;
+}
+
+/* Strikethrough */
+.markdown_content del {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+
+/* Keyboard keys */
+.markdown_content kbd {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Definition lists */
+.markdown_content dl {
+  margin: 1rem 0;
+}
+
+.markdown_content dt {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.markdown_content dd {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Footnotes */
+.markdown_content .footnote-ref {
+  font-size: 0.75rem;
+  vertical-align: super;
+  text-decoration: none;
+}
+
+.markdown_content .footnote-backref {
+  text-decoration: none;
+}
+
+/* Mark (highlighted text) */
+.markdown_content mark {
+  background-color: #fef08a;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .markdown_content {
+    font-size: 0.875rem;
+  }
+  
+  .markdown_content h1 {
+    font-size: 1.875rem;
+  }
+  
+  .markdown_content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .markdown_content h3 {
+    font-size: 1.25rem;
+  }
+  
+  .markdown_content pre {
+    font-size: 0.75rem;
+  }
+  
+  .markdown_content table {
+    font-size: 0.75rem;
+  }
+  
+  .markdown_content th,
+  .markdown_content td {
+    padding: 0.5rem;
+  }
+}
