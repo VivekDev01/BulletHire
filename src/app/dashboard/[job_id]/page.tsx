@@ -4,6 +4,7 @@ import React, { use, useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './page.module.css';
 import {url} from "../../../config";
+import Layout from '@/components/Layout';
 
 interface Applicant {
     id: string;
@@ -137,119 +138,121 @@ export default function DashboardPage({ params }: DashboardPageProps) {
     }
 
     return (
-        <main className={styles.main}>
-            <div className={styles.header}>
-                <h1 className={styles.title}>Job Applicants Dashboard</h1>
-                <p className={styles.subtitle}>Job ID: {job_id}</p>
-            </div>
-
-            <div className={styles.controls}>
-                <div className={styles.searchContainer}>
-                    <input
-                        type="text"
-                        placeholder="Search applicants..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className={styles.searchInput}
-                    />
-                    <span className={styles.searchIcon}>🔍</span>
+        <Layout>
+            <main className={styles.main}>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>Job Applicants Dashboard</h1>
+                    <p className={styles.subtitle}>Job ID: {job_id}</p>
                 </div>
-                <div className={styles.stats}>
-                    <span className={styles.statBadge}>
-                        Total: {filteredAndSortedApplicants.length}
-                    </span>
-                </div>
-            </div>
 
-            <div className={styles.tableContainer}>
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th onClick={() => handleSort('name')} className={styles.sortableHeader}>
-                                Name {getSortIcon('name')}
-                            </th>
-                            <th onClick={() => handleSort('email')} className={styles.sortableHeader}>
-                                Email {getSortIcon('email')}
-                            </th>
-                            <th onClick={() => handleSort('resumeScore')} className={styles.sortableHeader}>
-                                Resume Score {getSortIcon('resumeScore')}
-                            </th>
-                            <th onClick={() => handleSort('oaScore')} className={styles.sortableHeader}>
-                                OA Score {getSortIcon('oaScore')}
-                            </th>
-                            <th>Resume</th>
-                            <th onClick={() => handleSort('college')} className={styles.sortableHeader}>
-                                College {getSortIcon('college')}
-                            </th>
-                            <th onClick={() => handleSort('degree')} className={styles.sortableHeader}>
-                                Degree {getSortIcon('degree')}
-                            </th>
-                            <th onClick={() => handleSort('experience')} className={styles.sortableHeader}>
-                                Experience {getSortIcon('experience')}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredAndSortedApplicants.map((applicant) => (
-                            <tr key={applicant.id} className={styles.tableRow}>
-                                <td className={styles.nameCell}>
-                                    <div className={styles.nameContainer}>
-                                        <div className={styles.avatar}>
-                                            {applicant.name.charAt(0).toUpperCase()}
-                                        </div>
-                                        <span>{applicant.name}</span>
-                                    </div>
-                                </td>
-                                <td className={styles.emailCell}>{applicant.email}</td>
-                                <td>
-                                    {applicant.resumeScore !== undefined ? (
-                                        <span className={`${styles.score} ${getScoreColor(applicant.resumeScore, 'resume')}`}>
-                                            {applicant.resumeScore}%
-                                        </span>
-                                    ) : (
-                                        <span className={styles.noData}>-</span>
-                                    )}
-                                </td>
-                                <td>
-                                    {applicant.oaScore !== undefined ? (
-                                        <span className={`${styles.score} ${getScoreColor(applicant.oaScore, 'oa')}`}>
-                                            {applicant.oaScore}%
-                                        </span>
-                                    ) : (
-                                        <span className={styles.notAttended}>Not attended</span>
-                                    )}
-                                </td>
-                                <td>
-                                    {applicant.resumeFile ? (
-                                        <button
-                                            onClick={() => handleResumeDownload(applicant.resumeFile!, applicant.resumeFileName || 'resume.pdf')}
-                                            className={styles.downloadButton}
-                                        >
-                                            📄 Download
-                                        </button>
-                                    ) : (
-                                        <span className={styles.noData}>No file</span>
-                                    )}
-                                </td>
-                                <td className={styles.collegeCell}>{applicant.college}</td>
-                                <td className={styles.degreeCell}>{applicant.degree}</td>
-                                <td>
-                                    <span className={styles.experienceBadge}>
-                                        {applicant.experience} {applicant.experience === 1 ? 'year' : 'years'}
-                                    </span>
-                                </td>
+                <div className={styles.controls}>
+                    <div className={styles.searchContainer}>
+                        <input
+                            type="text"
+                            placeholder="Search applicants..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className={styles.searchInput}
+                        />
+                        <span className={styles.searchIcon}>🔍</span>
+                    </div>
+                    <div className={styles.stats}>
+                        <span className={styles.statBadge}>
+                            Total: {filteredAndSortedApplicants.length}
+                        </span>
+                    </div>
+                </div>
+
+                <div className={styles.tableContainer}>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th onClick={() => handleSort('name')} className={styles.sortableHeader}>
+                                    Name {getSortIcon('name')}
+                                </th>
+                                <th onClick={() => handleSort('email')} className={styles.sortableHeader}>
+                                    Email {getSortIcon('email')}
+                                </th>
+                                <th onClick={() => handleSort('resumeScore')} className={styles.sortableHeader}>
+                                    Resume Score {getSortIcon('resumeScore')}
+                                </th>
+                                <th onClick={() => handleSort('oaScore')} className={styles.sortableHeader}>
+                                    OA Score {getSortIcon('oaScore')}
+                                </th>
+                                <th>Resume</th>
+                                <th onClick={() => handleSort('college')} className={styles.sortableHeader}>
+                                    College {getSortIcon('college')}
+                                </th>
+                                <th onClick={() => handleSort('degree')} className={styles.sortableHeader}>
+                                    Degree {getSortIcon('degree')}
+                                </th>
+                                <th onClick={() => handleSort('experience')} className={styles.sortableHeader}>
+                                    Experience {getSortIcon('experience')}
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {filteredAndSortedApplicants.length === 0 && !loading && (
-                <div className={styles.emptyState}>
-                    <h3>No applicants found</h3>
-                    <p>Try adjusting your search criteria or check back later.</p>
+                        </thead>
+                        <tbody>
+                            {filteredAndSortedApplicants.map((applicant) => (
+                                <tr key={applicant.id} className={styles.tableRow}>
+                                    <td className={styles.nameCell}>
+                                        <div className={styles.nameContainer}>
+                                            <div className={styles.avatar}>
+                                                {applicant.name.charAt(0).toUpperCase()}
+                                            </div>
+                                            <span>{applicant.name}</span>
+                                        </div>
+                                    </td>
+                                    <td className={styles.emailCell}>{applicant.email}</td>
+                                    <td>
+                                        {applicant.resumeScore !== undefined ? (
+                                            <span className={`${styles.score} ${getScoreColor(applicant.resumeScore, 'resume')}`}>
+                                                {applicant.resumeScore}%
+                                            </span>
+                                        ) : (
+                                            <span className={styles.noData}>-</span>
+                                        )}
+                                    </td>
+                                    <td>
+                                        {applicant.oaScore !== undefined ? (
+                                            <span className={`${styles.score} ${getScoreColor(applicant.oaScore, 'oa')}`}>
+                                                {applicant.oaScore}%
+                                            </span>
+                                        ) : (
+                                            <span className={styles.notAttended}>Not attended</span>
+                                        )}
+                                    </td>
+                                    <td>
+                                        {applicant.resumeFile ? (
+                                            <button
+                                                onClick={() => handleResumeDownload(applicant.resumeFile!, applicant.resumeFileName || 'resume.pdf')}
+                                                className={styles.downloadButton}
+                                            >
+                                                📄 Download
+                                            </button>
+                                        ) : (
+                                            <span className={styles.noData}>No file</span>
+                                        )}
+                                    </td>
+                                    <td className={styles.collegeCell}>{applicant.college}</td>
+                                    <td className={styles.degreeCell}>{applicant.degree}</td>
+                                    <td>
+                                        <span className={styles.experienceBadge}>
+                                            {applicant.experience} {applicant.experience === 1 ? 'year' : 'years'}
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-            )}
-        </main>
+
+                {filteredAndSortedApplicants.length === 0 && !loading && (
+                    <div className={styles.emptyState}>
+                        <h3>No applicants found</h3>
+                        <p>Try adjusting your search criteria or check back later.</p>
+                    </div>
+                )}
+            </main>
+        </Layout>
     );
 }

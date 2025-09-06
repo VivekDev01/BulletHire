@@ -121,7 +121,7 @@ const Header = () => {
                     <nav className={styles.nav}>
                         <a href="/dashboard" className={styles.navLink}>Dashboard</a>
                         <a href="/create-jd" className={styles.navLink}>Post Job</a>
-                        <a href="/nill" className={styles.navLink}>NILL</a>
+                        <a href="/jobs-cards" className={styles.navLink}>Jobs</a>
                         <a href="/nill" className={styles.navLink}>NILL</a>
                     </nav>
                 )

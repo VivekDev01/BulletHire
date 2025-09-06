@@ -1,0 +1,9 @@
+.main{
+    background-color: aliceblue;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.cards{
+    margin: 0 0 20px 0;
+}
