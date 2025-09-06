@@ -3,18 +3,18 @@
 import { useState } from "react";
 import styles from './JobCard.module.css'
 
-// Sample job data for demonstration
-const sampleJobDetails = {
-    role: "Senior Frontend Developer",
-    location: "San Francisco, CA",
-    experience: "3-5 years",
-    salary: "$120,000 - $150,000",
-    skills: "React, TypeScript, Node.js, GraphQL, CSS3, HTML5",
-    created_at: "2024-01-15T10:30:00Z",
-    user: {
-        username: "TechCorp"
-    }
-};
+// // Sample job data for demonstration
+// const sampleJobDetails = {
+//     role: "Senior Frontend Developer",
+//     location: "San Francisco, CA",
+//     experience: "3-5 years",
+//     salary: "$120,000 - $150,000",
+//     skills: "React, TypeScript, Node.js, GraphQL, CSS3, HTML5",
+//     created_at: "2024-01-15T10:30:00Z",
+//     user: {
+//         username: "TechCorp"
+//     }
+// };
 
 type JobDetails = {
     role: string;
@@ -36,7 +36,8 @@ export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
     let experience = jobDetails.experience;
     let salary = jobDetails.salary ? jobDetails.salary : "Not specified";
     let skills = jobDetails.skills ? jobDetails.skills.split(", ") : [];
-    let postedAt = jobDetails.created_at ? new Date(jobDetails.created_at).toLocaleDateString() : "Unknown";
+    let postedAt = jobDetails.created_at ? new Date(jobDetails.created_at).toLocaleDateString() : "Unknown"
+
     let postedBy = jobDetails.user.username;
 
     return(
@@ -109,7 +110,7 @@ export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
             </div>
 
             <div className={styles.jobCardFooter}>
-                <span className={styles.postedDate}>Posted on {postedAt}</span>
+                <span className={styles.postedDate}>{postedAt}</span>
                 <div className={styles.actionButtons}>
                     <button className={styles.btnSecondary}>View Details</button>
                     <button className={styles.btnPrimary}>Apply Now</button>

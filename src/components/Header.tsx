@@ -119,10 +119,49 @@ const Header = () => {
                 : pathname !== '/' && pathname !== '/signin' && pathname !== '/signup' &&
                 (
                     <nav className={styles.nav}>
-                        <a href="/dashboard" className={styles.navLink}>Dashboard</a>
-                        <a href="/create-jd" className={styles.navLink}>Post Job</a>
-                        <a href="/jobs-cards" className={styles.navLink}>Jobs</a>
-                        <a href="/nill" className={styles.navLink}>NILL</a>
+                        <a
+                            onClick={(e) => {
+                            e.preventDefault();
+                            router.push("/dashboard");
+                            }}
+                            className={styles.navLink}
+                            href="/dashboard"
+                        >
+                            Dashboard
+                        </a>
+
+                        <a
+                            onClick={(e) => {
+                            e.preventDefault();
+                            router.push("/create-jd");
+                            }}
+                            className={styles.navLink}
+                            href="/create-jd"
+                        >
+                            Post Job
+                        </a>
+
+                        <a
+                            onClick={(e) => {
+                            e.preventDefault();
+                            router.push("/jobs-cards");
+                            }}
+                            className={styles.navLink}
+                            href="/jobs-cards"
+                        >
+                            Jobs
+                        </a>
+
+                        <a
+                            onClick={(e) => {
+                            e.preventDefault();
+                            router.push("/nill");
+                            }}
+                            className={styles.navLink}
+                            href="/nill"
+                        >
+                            NILL
+                        </a>
                     </nav>
                 )
             }
