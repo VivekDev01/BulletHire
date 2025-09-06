@@ -3,7 +3,7 @@
   border-radius: 16px;
   padding: 24px;
   color: white;
-  max-width: 500px;
+  max-width: 900px;
   margin: 20px auto;
   box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
   position: relative;
@@ -203,20 +203,27 @@
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .jobCard {
     margin: 16px;
     padding: 20px;
+    width: calc(100% - 32px);
   }
   
   .detailRow {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 12px;
+  }
+  
+  .jobCardHeader {
+    flex-direction: column;
+    gap: 16px;
   }
   
   .jobCardFooter {
     flex-direction: column;
     align-items: stretch;
+    gap: 16px;
   }
   
   .actionButtons {

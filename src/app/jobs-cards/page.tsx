@@ -38,8 +38,8 @@ export default function JobsCard(){
         <Layout>
             <main className={styles.main}>
                 {jobs?.map((job, index) => (
-                    <div className={styles.cards}>
-                        <JobsCardComponent key={index} jobDetails={job} />
+                    <div key={index} className={styles.cards}>
+                        <JobsCardComponent jobDetails={job} />
                     </div>
                 ))}
             </main>

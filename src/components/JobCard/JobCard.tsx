@@ -3,7 +3,6 @@
 import { useState } from "react";
 import styles from './JobCard.module.css'
 
-
 // Sample job data for demonstration
 const sampleJobDetails = {
     role: "Senior Frontend Developer",
@@ -17,7 +16,19 @@ const sampleJobDetails = {
     }
 };
 
-export default function JobsCard({ jobDetails = sampleJobDetails }) {
+type JobDetails = {
+    role: string;
+    location: string;
+    experience: string;
+    salary?: string;
+    skills?: string;
+    created_at?: string;
+    user: {
+        username: string;
+    };
+};
+
+export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
     const [isBookmarked, setIsBookmarked] = useState(false);
     
     let role = jobDetails.role;
@@ -68,11 +79,9 @@ export default function JobsCard({ jobDetails = sampleJobDetails }) {
                             <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                        <span>{experience}</span>
+                        <span>{experience} Years</span>
                     </div>
-                </div>
 
-                <div className={styles.salarySection}>
                     <div className={styles.detailItem}>
                         <svg className={styles.icon} width="16" height="16" viewBox="0 0 24 24" fill="none">
                             <line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -80,11 +89,14 @@ export default function JobsCard({ jobDetails = sampleJobDetails }) {
                         </svg>
                         <span className={styles.salary}>{salary}</span>
                     </div>
+                    
                 </div>
+
+                
 
                 {skills.length > 0 && (
                     <div className={styles.skillsSection}>
-                        <h4 className={styles.skillsTitle}>Required Skills</h4>
+                        {/* <h4 className={styles.skillsTitle}>Required Skills</h4> */}
                         <div className={styles.skillsContainer}>
                             {skills.map((skill, index) => (
                                 <span key={index} className={styles.skillTag}>
