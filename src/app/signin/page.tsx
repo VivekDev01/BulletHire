@@ -1,4 +1,3 @@
-// src/app/login/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -20,16 +19,19 @@ export default function LoginPage() {
       const payload = {
         email: email,
         password: password,
-      }
+      };
       const response = await axios.post(`${url}/api/login`, payload);
       alert(response.data.message);
-      console.log(response.data);
       localStorage.setItem('token', response.data.token);
-      window.location.href = '/home'; 
+      window.location.href = '/home';
     } catch (err: any) {
       console.error('Login error:', err);
       alert(err?.response?.data?.message || 'Login failed');
     }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${url}/auth/login`;
   };
 
   return (
@@ -39,37 +41,44 @@ export default function LoginPage() {
           <h2>Sign In</h2>
           <input
             type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={styles.input}
-        />
-
-        <div className={styles.passwordWrapper}>
-          <input
-            type={passwordVisible ? 'text' : 'password'}
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className={styles.input}
           />
-          <button
-            type="button"
-            onClick={() => setPasswordVisible(!passwordVisible)}
-            className={styles.eyeIcon}
-          >
-            {passwordVisible ? <EyeOff /> : <Eye />}
+
+          <div className={styles.passwordWrapper}>
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className={styles.eyeIcon}
+            >
+              {passwordVisible ? <EyeOff /> : <Eye />}
+            </button>
+          </div>
+
+          <button onClick={handleSubmit} className={styles.submitBtn}>
+            Sign In
           </button>
+
+          <button onClick={handleGoogleLogin} className={styles.googleBtn}>
+            Sign in with Google
+          </button>
+
+          <p className={styles.toggleText}>
+            Don’t have an account?{' '}
+            <Link className="Link" style={{ color: 'blue' }} href="/signup">
+              Sign up
+            </Link>
+          </p>
         </div>
-
-        <button onClick={handleSubmit} className={styles.submitBtn}>
-          Sign In
-        </button>
-
-        <p className={styles.toggleText}>
-          Don’t have an account? <Link className='Link'style={{ color: 'blue' }} href="/signup">Sign up</Link>
-        </p>
-      </div>
       </div>
     </Layout>
   );

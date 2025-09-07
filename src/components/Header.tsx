@@ -94,6 +94,7 @@ const Header = () => {
         }
         if (typeof window !== "undefined") {
             localStorage.removeItem('token');
+            localStorage.removeItem('userId');
         }
         setAnchorEl(null);
         window.location.href = '/signin';
