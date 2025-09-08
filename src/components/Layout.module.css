@@ -1,0 +1,175 @@
+.layoutWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px; /* Account for fixed header height */
+  min-height: calc(100vh - 80px);
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Full width variant - for pages that need full screen width */
+.fullWidth .container {
+  max-width: none;
+  padding: 0;
+}
+
+/* Centered variant - for auth pages and other centered content */
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  padding: 20px 0;
+}
+
+.centered .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  min-height: auto;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 960px;
+    padding: 0 20px;
+  }
+  
+  .main {
+    margin-top: 70px;
+    min-height: calc(100vh - 70px);
+  }
+  
+  .centered {
+    min-height: calc(100vh - 70px);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 0 16px;
+  }
+  
+  .main {
+    margin-top: 65px;
+    min-height: calc(100vh - 65px);
+  }
+  
+  .centered {
+    min-height: calc(100vh - 65px);
+    padding: 16px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+  
+  .main {
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+  }
+  
+  .centered {
+    min-height: calc(100vh - 60px);
+    padding: 12px 0;
+  }
+}
+
+/* Smooth scrolling and better text rendering */
+.layoutWrapper {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prevent horizontal overflow */
+.main,
+.container {
+  overflow-x: hidden;
+}
+
+/* Loading state support */
+.layoutWrapper.loading {
+  overflow: hidden;
+}
+
+.layoutWrapper.loading::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animation support for page transitions */
+.main {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .main,
+  .layoutWrapper * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus outline improvements */
+.layoutWrapper *:focus {
+  outline-offset: 2px;
+}
+
+/* Better form element styling across the app */
+.layoutWrapper input,
+.layoutWrapper textarea,
+.layoutWrapper select,
+.layoutWrapper button {
+  font-family: inherit;
+}
+
+/* Ensure proper stacking context */
+.main {
+  isolation: isolate;
+}

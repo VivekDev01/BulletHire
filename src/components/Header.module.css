@@ -1,396 +1,517 @@
-/* === styles/Home.module.css === */
 .container {
-  font-family: 'Segoe UI', sans-serif;
-  padding: 0;
-  margin: 0;
-  background-color: #ffffff;
-  color: #000000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 12px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
 }
 
+/* Logo Styles */
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 12px;
+  user-select: none;
+}
+
+.logo:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.logoText {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.logoMain {
   font-size: 24px;
   font-weight: 700;
-  color: #2176ff;
-  cursor: pointer;
+  color: #2d3748;
+}
+
+.logoAccent {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Desktop Navigation */
+.desktopNav {
+  display: flex;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .navLink {
+  padding: 10px 16px;
+  color: #4a5568;
   text-decoration: none;
-  color: #383838;
-  font-weight: 600;
-  font-size: 1.08rem;
-  padding: 8px 18px;
-  border-radius: 8px;
-  transition: background 0.16s, color 0.16s;
-}
-.navLink:hover {
-  background: #e3efff;
-  color: #2176ff;
-}
-
-.nav a {
-  margin: 0 15px;
-  text-decoration: none;
-  color: #333;
   font-weight: 500;
-}
-
-.profileButton{
-  display: flex;
-  align-items: center;
-  background-color: #f6f8fb;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: #333;
-  font-weight: 600;
-}
-.profileButton:hover {
-  background-color: #e3efff;
-}
-
-.authButtons button {
-  margin-left: 15px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.signIn {
-  background-color: transparent;
-  color: #333;
-}
-
-.signUp {
-  background-color: #2176ff;
-  color: white;
-}
-.signUp:hover {
-  background-color: #1a5bbf;
-}
-
-.main {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  padding: 60px 40px;
-  flex-wrap: wrap;
-  height: 90vh;
-}
-
-.leftColumn {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-}
-
-/* .leftColumnContent{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-} */
-
-.leftColumnContent h1 {
-  font-size: 70px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.highlight {
-  color: #2176ff;
-  position: relative;
-}
-
-.highlight::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  height: 5px;
-  width: 100%;
-  background: #2176ff;
-  opacity: 0.3;
-  z-index: -1;
-}
-
-.leftColumn p {
-  margin-top: 20px;
-  font-size: 16px;
-  color: #666;
-}
-
-.storeButtons img {
-  height: 40px;
-  margin-right: 10px;
-  margin-top: 20px;
-}
-
-.rightColumn {
-    width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.girlImage {
-  max-width: 50%;
-  height: auto;
-}
-
-.searchSection {
-  background: #f6f8fb;
-  padding: 20px 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  border-radius: 16px;
-  margin: 40px auto;
-  max-width: 1000px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
-
-.input {
-  flex: 1;
-  padding: 12px 16px;
-  border: 1px solid #ccc;
+  font-size: 14px;
   border-radius: 8px;
-  font-size: 14px;
-}
-
-.searchButton {
-  background-color: #2176ff;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.howItWorks {
-  padding: 80px 40px;
-  text-align: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #f6f8fb, #ffffff);
-}
-
-.sectionHeader {
-  margin-bottom: 40px;
-}
-
-.badge {
-  display: inline-block;
-  background-color: #e3efff;
-  color: #2176ff;
-  padding: 6px 16px;
-  border-radius: 9999px;
-  font-weight: 600;
-  font-size: 12px;
-  margin-bottom: 12px;
-}
-
-.sectionHeader h2 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #333;
-}
-
-.steps {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.stepBox {
-  max-width: 240px;
-}
-
-.iconBox {
-  background-color: #e3efff;
-  padding: 20px;
-  border-radius: 16px;
-  display: inline-block;
-  margin-bottom: 16px;
-}
-.iconBox:first-child {
-  color: #2176ff;
-}
-
-.stepBox h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.stepBox p {
-  font-size: 14px;
-  color: #666;
-}
-
-.brandLogos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 60px;
-  flex-wrap: wrap;
-  gap: 30px;
-}
-.stepper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 60px;
-  overflow-x: auto;
-  padding: 20px 0;
-}
-
-.stepperItem {
+  transition: all 0.3s ease;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 100px;
-}
-
-.stepCircle {
-  width: 40px;
-  height: 40px;
-  background-color: #2176ff;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  z-index: 2;
-}
-
-.stepLabel {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #333;
-  text-align: center;
   white-space: nowrap;
 }
 
-.stepLine {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background-color: #cce0ff;
-  z-index: 1;
-  transform: translateX(50%);
+.navLink:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
 }
 
-
-.container2 {
+.navButton {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 4rem;
-  background-color: #f9f9ff;
+  gap: 8px;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  color: #4a5568;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   position: relative;
-  height: 100vh;
+  white-space: nowrap;
 }
 
-.imageWrapper {
-  position: relative;
-  width: 50%;
+.navButton:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
 }
 
-.girlImage2 {
-  z-index: 2;
-  position: relative;
+.navButton.active {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.15);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
 }
 
-.triangle {
+.navButton.active::after {
+  content: '';
   position: absolute;
-  bottom: -100px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #e8f3ff;
-  clip-path: polygon(0 100%, 100% 0, 100% 100%);
-  z-index: 1;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: #667eea;
+  border-radius: 50%;
 }
 
-.textContent {
-  width: 45%;
+.navIcon {
+  font-size: 18px !important;
+}
+
+/* Right Section */
+.rightSection {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  align-items: center;
+  gap: 16px;
 }
 
-.tag {
-  background-color: #e6efff;
-  color: #3a7bd5;
+/* User Section */
+.userSection {
+  display: flex;
+  align-items: center;
+}
+
+.avatarButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.avatarButton:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+.avatar {
+  width: 36px !important;
+  height: 36px !important;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+}
+
+.avatarButton:hover .avatar {
+  border-color: #667eea;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.userName {
   font-weight: 600;
+  color: #2d3748;
+  font-size: 14px;
+}
+
+/* User Menu */
+.menuPaper {
+  margin-top: 8px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.menuItem {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 12px 20px !important;
+  font-weight: 500 !important;
+  color: #4a5568 !important;
+  transition: all 0.2s ease !important;
+}
+
+.menuItem:hover {
+  background: rgba(102, 126, 234, 0.1) !important;
+  color: #667eea !important;
+}
+
+.menuIcon {
+  font-size: 20px !important;
+  color: inherit !important;
+}
+
+/* Auth Buttons */
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.signIn {
+  padding: 10px 20px;
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.signIn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.signUp {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   border: none;
   border-radius: 8px;
-  padding: 0.5rem 1rem;
-  width: fit-content;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.4;
-  color: #2d2d2d;
+.signUp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
 }
 
-.features {
+/* Mobile Menu Button */
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #4a5568;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.mobileMenuButton:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+/* Mobile Navigation */
+.mobileNav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.mobileNavOpen {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileNavContent {
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 4px;
 }
 
-.featureItem {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
+.mobileNavLink {
+  padding: 12px 16px;
+  color: #4a5568;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-.iconBox2 {
-  background-color: #e6efff;
-  padding: 0.8rem;
-  border-radius: 12px;
+.mobileNavLink:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.mobileNavButton {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-.iconBox2:first-child {
-  color: #3a7bd5;
+  gap: 12px;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #4a5568;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  width: 100%;
 }
 
-.titleBox h4{
-  font-size: 1.2rem;
+.mobileNavButton:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.mobileNavButton.active {
+  background: rgba(102, 126, 234, 0.15);
+  color: #667eea;
+}
+
+/* Mobile Auth Buttons */
+.mobileAuthButtons {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileSignIn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
   font-weight: 600;
-  color: #2d2d2d;
-  margin-bottom: 0.5rem;
-}
-.titleBox p {
-  font-size: 0.9rem;
-  color: #666;
-}
-.avatarButton{
   cursor: pointer;
+  transition: all 0.3s ease;
 }
+
+.mobileSignIn:hover {
+  background: #667eea;
+  color: white;
+}
+
+.mobileSignUp {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mobileSignUp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* Mobile User Section */
+.mobileUserSection {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mobileUserInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+
+.mobileAvatar {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.mobileUserName {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    padding: 12px 20px;
+  }
+
+  .desktopNav,
+  .authButtons {
+    display: none;
+  }
+
+  .mobileMenuButton {
+    display: flex;
+  }
+
+  .logoText {
+    display: none;
+  }
+
+  .logoIcon {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .userName {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 10px 16px;
+  }
+
+  .logo {
+    gap: 8px;
+    padding: 6px 8px;
+  }
+
+  .logoMain,
+  .logoAccent {
+    font-size: 20px;
+  }
+}
+
+/* Animation for smooth transitions */
+.navButton,
+.navLink,
+.avatarButton {
+  position: relative;
+  overflow: hidden;
+}
+
+.navButton::before,
+.navLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.navButton:hover::before,
+.navLink:hover::before {
+  left: 100%;
+}
+
+/* Focus states for accessibility */
+.logo:focus,
+.navButton:focus,
+.navLink:focus,
+.avatarButton:focus,
+.signIn:focus,
+.signUp:focus,
+.mobileMenuButton:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Loading state for async operations */
+.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Smooth scroll behavior - can be added to global CSS or _app.js */

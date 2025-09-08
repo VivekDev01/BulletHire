@@ -5,9 +5,14 @@ import axios from 'axios';
 import styles from './page.module.css';
 import Eye from '@mui/icons-material/Visibility';
 import EyeOff from '@mui/icons-material/VisibilityOff';
+import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
+import LockIcon from '@mui/icons-material/Lock';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Link from 'next/link';
 import { url } from '../../config';
 import Layout from '@/components/Layout';
+import { Modal, Backdrop, Fade } from '@mui/material';
 
 export default function SignupPage() {
   const [username, setUsername] = useState('');
@@ -17,6 +22,10 @@ export default function SignupPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordVisible2, setPasswordVisible2] = useState(false);
   const [strength, setStrength] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [emailVerificationModalOpen, setEmailVerificationModalOpen] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
 
   const evaluateStrength = (pwd: string) => {
     if (pwd.length < 6) return 'Weak';
@@ -24,7 +33,6 @@ export default function SignupPage() {
     return 'Medium';
   };
   
-
   const handlePasswordChange = (val: string) => {
     setPassword(val);
     setStrength(evaluateStrength(val));
@@ -32,7 +40,6 @@ export default function SignupPage() {
 
   const handlePasswordChange2 = (val: string) => {
     setConfirmPassword(val);
-    
   };
 
   const handleSubmit = async () => {
@@ -61,6 +68,8 @@ export default function SignupPage() {
         alert('Password must contain at least one uppercase letter, one number, and one special character');
         return;
       }
+
+      setIsLoading(true);
       const payload = {
         username: username,
         email: email,
@@ -69,11 +78,37 @@ export default function SignupPage() {
 
       const response = await axios.post(`${url}/api/signup`, payload);
       console.log(response.data);
-      alert(response.data.message);
-      window.location.href = '/signin';
+      setEmailVerificationModalOpen(true);
+      setIsLoading(false);
     } catch (err: any) {
       console.error('Signup error:', err);
       alert(err?.response?.data?.message || 'Signup failed');
+      setIsLoading(false);
+    }
+  };
+
+  const handleEmailVerification = async () => {
+    try {
+      const response = await axios.post(`${url}/api/verify-email`, { 
+        code: verificationCode, 
+        email: email 
+      });
+      console.log(response.data);
+      alert('Email verified successfully');
+      setEmailVerificationModalOpen(false);
+      window.location.href = '/signin';
+    } catch (error) {
+      console.error('Email verification error:', error);
+      alert('Email verification failed');
+    }
+  };
+
+  const getStrengthColor = () => {
+    switch (strength) {
+      case 'Weak': return '#ff4444';
+      case 'Medium': return '#ff8800';
+      case 'Strong': return '#00cc44';
+      default: return '#666';
     }
   };
 
@@ -81,77 +116,172 @@ export default function SignupPage() {
     <Layout>
       <div className={styles.authContainer}>
         <div className={styles.card}>
-          <h2>Sign Up</h2>
-          <input
-            type="text"
-            placeholder="Name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className={styles.input}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={styles.input}
-          />
-
-          <div className={styles.passwordWrapper}>
-            <input
-              type={passwordVisible ? 'text' : 'password'}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => handlePasswordChange(e.target.value)}
-              className={styles.input}
-            />
-            <button
-              type="button"
-              onClick={() => setPasswordVisible(!passwordVisible)}
-              className={styles.eyeIcon}
-            >
-              {passwordVisible ? <EyeOff /> : <Eye />}
-            </button>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Create Account</h2>
+            <p className={styles.subtitle}>Join us today and get started</p>
           </div>
 
-          <div className={styles.passwordWrapper}>
-            <input
-              type={passwordVisible2 ? 'text' : 'password'}
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => handlePasswordChange2(e.target.value)}
-              className={styles.input}
-            />
-            <button
-              type="button"
-              onClick={() => setPasswordVisible2(!passwordVisible2)}
-              className={styles.eyeIcon}
+          <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+            <div className={styles.inputGroup}>
+              <div className={styles.inputWrapper}>
+                <PersonIcon className={styles.inputIcon} />
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className={styles.input}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={styles.inputGroup}>
+              <div className={styles.inputWrapper}>
+                <EmailIcon className={styles.inputIcon} />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={styles.input}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={styles.inputGroup}>
+              <div className={styles.inputWrapper}>
+                <LockIcon className={styles.inputIcon} />
+                <input
+                  type={passwordVisible ? 'text' : 'password'}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => handlePasswordChange(e.target.value)}
+                  className={styles.input}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                  className={styles.eyeIcon}
+                >
+                  {passwordVisible ? <EyeOff /> : <Eye />}
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.inputGroup}>
+              <div className={styles.inputWrapper}>
+                <LockIcon className={styles.inputIcon} />
+                <input
+                  type={passwordVisible2 ? 'text' : 'password'}
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => handlePasswordChange2(e.target.value)}
+                  className={styles.input}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setPasswordVisible2(!passwordVisible2)}
+                  className={styles.eyeIcon}
+                >
+                  {passwordVisible2 ? <EyeOff /> : <Eye />}
+                </button>
+              </div>
+            </div>
+
+            {password && (
+              <div className={styles.passwordStrength}>
+                <div className={styles.strengthBar}>
+                  <div 
+                    className={`${styles.strengthFill} ${styles[strength?.toLowerCase()]}`}
+                    style={{ backgroundColor: getStrengthColor() }}
+                  ></div>
+                </div>
+                <p className={styles.strengthText} style={{ color: getStrengthColor() }}>
+                  Password Strength: {strength}
+                </p>
+              </div>
+            )}
+
+            {password && confirmPassword && password !== confirmPassword && (
+              <div className={styles.errorMessage}>
+                <span>⚠️ Passwords do not match</span>
+              </div>
+            )}
+
+            <button 
+              onClick={handleSubmit} 
+              className={`${styles.submitBtn} ${isLoading ? styles.loading : ''}`}
+              disabled={isLoading}
             >
-              {passwordVisible2 ? <EyeOff /> : <Eye />}
+              {isLoading ? (
+                <div className={styles.spinner}></div>
+              ) : (
+                'Create Account'
+              )}
             </button>
+          </form>
+
+          <div className={styles.footer}>
+            <p className={styles.toggleText}>
+              Already have an account? 
+              <Link href="/signin" className={styles.link}>
+                Sign in
+              </Link>
+            </p>
           </div>
-
-          {password && (
-            <p style={{ color: strength === 'Weak' ? 'red' : strength === 'Medium' ? 'orange' : 'green', marginBottom: '12px' }}>
-              Password Strength: {strength}
-            </p>
-          )}
-
-          {password && confirmPassword && password !== confirmPassword && (
-            <p style={{ color: 'red', marginBottom: '12px' }}>
-              Passwords do not match
-            </p>
-          )}
-
-          <button onClick={handleSubmit} className={styles.submitBtn}>
-            Sign Up
-          </button>
-
-          <p className={styles.toggleText}>
-            Already have an account? <Link style={{color:'blue'}} href="/signin">Sign in</Link>
-          </p>
         </div>
       </div>
+
+      <Modal
+        open={emailVerificationModalOpen}
+        onClose={() => setEmailVerificationModalOpen(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={emailVerificationModalOpen}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <CheckCircleIcon className={styles.modalIcon} />
+              <h2>Verify Your Email</h2>
+              <p>We've sent a verification code to your email address</p>
+            </div>
+            
+            <div className={styles.modalBody}>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="text"
+                  placeholder="Enter verification code"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                  className={styles.input}
+                />
+              </div>
+              
+              <div className={styles.modalActions}>
+                <button 
+                  onClick={handleEmailVerification}
+                  className={styles.verifyBtn}
+                >
+                  Verify Email
+                </button>
+                <button 
+                  onClick={() => setEmailVerificationModalOpen(false)}
+                  className={styles.cancelBtn}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </Fade>
+      </Modal>
     </Layout>
   );
 }
