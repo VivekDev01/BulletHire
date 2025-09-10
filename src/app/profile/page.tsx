@@ -6,7 +6,7 @@ import { url } from '@/config';
 import Layout from '@/components/Layout';
 
 interface UserData {
-  name: string;
+  username: string;
   email: string;
   phone: string;
   password: string;
@@ -17,6 +17,7 @@ interface UserData {
   courses: Course[];
   certifications: Certification[];
   id: string;
+  isPhoneVerified: boolean;
 }
 
 interface Experience {
@@ -61,7 +62,7 @@ const TECH_SKILLS = [
 
 const MyComponent = () => {
   const [userData, setUserData] = useState<UserData>({
-    name: '',
+    username: '',
     email: '',
     phone: '',
     password: '',
@@ -71,20 +72,17 @@ const MyComponent = () => {
     skills: [],
     courses: [],
     certifications: [],
-    id: ''
-  });
-
-  const [editMode, setEditMode] = useState({
-    personal: false,
-    experience: false,
-    skills: false,
-    courses: false,
-    certifications: false
+    id: '',
+    isPhoneVerified: false
   });
 
   const [newSkill, setNewSkill] = useState('');
   const [showSkillDropdown, setShowSkillDropdown] = useState(false);
   const [filteredSkills, setFilteredSkills] = useState(TECH_SKILLS);
+  const [showOTPModal, setShowOTPModal] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const fetchUserData = async () => {
     try {
@@ -96,7 +94,7 @@ const MyComponent = () => {
       const user = response.data.user;
       if (user) {
         setUserData({
-          name: user.username || '',
+          username: user.username || '',
           email: user.email || '',
           phone: user.phone || '',
           password: '********',
@@ -106,7 +104,8 @@ const MyComponent = () => {
           skills: user.skills || [],
           courses: user.courses || [],
           certifications: user.certifications || [],
-          id: user._id || ''
+          id: user._id || '',
+          isPhoneVerified: user.isPhoneVerified || false
         });
         localStorage.setItem('userId', user._id || '');
       }
@@ -121,7 +120,7 @@ const MyComponent = () => {
 
   const calculateProfileCompletion = () => {
     const fields = [
-      userData.name,
+      userData.username,
       userData.email,
       userData.phone,
       userData.profilePicture,
@@ -139,7 +138,7 @@ const MyComponent = () => {
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'resume') => {
     const file = event.target.files?.[0];
     if (file) {
-      console.log(`Uploading ${type}:`, file);
+      setIsLoading(true);
       try {
         const formData = new FormData();
         formData.append('file', file);
@@ -155,56 +154,118 @@ const MyComponent = () => {
           }));
         }
       } catch (error) {
-        
+        console.error(`Error uploading ${type}:`, error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
 
-  const handleAddSkill = async (skill: string) => {
-    // if (skill && !userData.skills.includes(skill)) {
-    //   setUserData(prev => ({
-    //     ...prev,
-    //     skills: [...prev.skills, skill]
-    //   }));
-    // }
-    // setNewSkill('');
-    // setShowSkillDropdown(false);
+  const handlePhoneVerification = async () => {
+    if (!userData.phone) {
+      alert('Please enter your phone number first');
+      return;
+    }
+    
+    setIsLoading(true);
     try {
-      const res = await axios.post(`${url}/add_skill`, {'skill': skill}, 
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+      const res = await axios.post(`${url}/send_otp`, {'phone': userData.phone}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
-      )
+      });
+      if(res.data.success) {
+        setShowOTPModal(true);
+      }
+    } catch (error) {
+      console.log("Error while sending OTP", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOTPVerification = async () => {
+    if (!otp) {
+      alert('Please enter the OTP');
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const res = await axios.post(`${url}/verify_otp`, {'otp': otp, 'phone': userData.phone}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if(res.data.success) {
+        setUserData(prev => ({...prev, isPhoneVerified: true}));
+        setShowOTPModal(false);
+        setOtp('');
+        alert('Phone verified successfully!');
+      }
+    } catch (error) {
+      console.log("Error while verifying OTP", error);
+      alert('Invalid OTP. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const savePersonalInfo = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.post(`${url}/edit_user_data`, {'userData': userData}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if(res.data.success) {
+        setHasUnsavedChanges(false);
+        alert('Personal information saved successfully!');
+        fetchUserData();
+      }
+    } catch (error) {
+      console.log("Error while saving user data", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddSkill = async (skill: string) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.post(`${url}/add_skill`, {'skill': skill}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       if(res.data.success){
         fetchUserData();
         setNewSkill('');
         setShowSkillDropdown(false);
       }
     } catch (error) {
-      console.log("error while adding a skill", error);
+      console.log("Error while adding a skill", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleRemoveSkill = async (skillToRemove: string) => {
-    // setUserData(prev => ({
-    //   ...prev,
-    //   skills: prev.skills.filter(skill => skill !== skillToRemove)
-    // }));
+    setIsLoading(true);
     try {
-      const res = await axios.post(`${url}/remove_skill`, {'skill': skillToRemove},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+      const res = await axios.post(`${url}/remove_skill`, {'skill': skillToRemove}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
-      )
+      });
       if(res.data.success){
         fetchUserData();
       }
     } catch (error) {
-      console.log('error while removing the skill', error)
+      console.log('Error while removing the skill', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -233,22 +294,23 @@ const MyComponent = () => {
   };
 
   const addExperienceToBackend = async () => {
+    setIsLoading(true);
     try {
-      let experience = userData.experience;
-      const res = await axios.post(`${url}/add_experience`, {'experience':experience},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+      const res = await axios.post(`${url}/add_experience`, {'experience': userData.experience}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
-      )
+      });
       if(res.data.success){
-        console.log('experience added successfully');
+        alert('Experience saved successfully!');
+        fetchUserData();
       }
     } catch (error) {
-      console.log(`error while adding experience: ${error}`)
+      console.log(`Error while adding experience: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   const updateExperience = (id: string, field: keyof Experience, value: string | boolean) => {
     setUserData(prev => ({
@@ -289,21 +351,24 @@ const MyComponent = () => {
     }));
   };
 
-  const handleAddCourse = async () =>{
+  const handleAddCourse = async () => {
+    setIsLoading(true);
     try {
-      const res= await axios.post(`${url}/add_course`, {'courses': userData['courses']}, 
-      {
+      const res = await axios.post(`${url}/add_course`, {'courses': userData.courses}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
-      })
+      });
       if(res.data.success){
+        alert('Courses saved successfully!');
         fetchUserData();
       }
     } catch (error) {
-      console.log("error while adding courses", error);
+      console.log("Error while adding courses", error);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   const removeCourse = (id: string) => {
     setUserData(prev => ({
@@ -343,44 +408,49 @@ const MyComponent = () => {
     }));
   };
 
-  const handleAddCertification = async () =>{
+  const handleAddCertification = async () => {
+    setIsLoading(true);
     try {
-      const res= await axios.post(`${url}/add_certification`, {'certifications': userData['certifications']}, 
-      {
+      const res = await axios.post(`${url}/add_certification`, {'certifications': userData.certifications}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
-      })
+      });
       if(res.data.success){
+        alert('Certifications saved successfully!');
         fetchUserData();
       }
     } catch (error) {
-      console.log("error while adding certifications", error);
+      console.log("Error while adding certifications", error);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   const completionPercentage = calculateProfileCompletion();
 
   return (
     <Layout>
       <div className={styles.container}>
-        {/* Profile Completion Badge */}
-        <div className={styles.completionBadge}>
-          <div className={styles.completionCircle}>
-            <div 
-              className={styles.completionFill}
-              style={{ 
-                background: `conic-gradient(#4CAF50 ${completionPercentage * 3.6}deg, #e0e0e0 0deg)` 
-              }}
-            >
-              <div className={styles.completionInner}>
-                <span className={styles.completionText}>{completionPercentage}%</span>
+        {/* Header with Profile Completion */}
+        <div className={styles.header}>
+          <div className={styles.completionCard}>
+            <div className={styles.completionCircle}>
+              <div 
+                className={styles.completionFill}
+                style={{ 
+                  background: `conic-gradient(#667eea ${completionPercentage * 3.6}deg, #e2e8f0 0deg)` 
+                }}
+              >
+                <div className={styles.completionInner}>
+                  <span className={styles.completionText}>{completionPercentage}%</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={styles.completionInfo}>
-            <h3>Profile Completion</h3>
-            <p>Complete your profile to get better opportunities</p>
+            <div className={styles.completionInfo}>
+              <h2>Profile Completion</h2>
+              <p>Complete your profile to get better opportunities</p>
+            </div>
           </div>
         </div>
 
@@ -389,97 +459,105 @@ const MyComponent = () => {
           <div className={styles.sectionHeader}>
             <h2>Personal Information</h2>
             <button 
-              className={styles.editBtn}
-              onClick={async () => {
-                if(!editMode.personal){
-                  setEditMode(prev => ({ ...prev, personal: !prev.personal }))
-                }else{
-                  try {
-                    const res = await axios.post(`${url}/edit_user_data`, {'userData': userData}, 
-                      {
-                        headers: {
-                          Authorization: `Bearer ${localStorage.getItem('token')}`
-                        }
-                      }
-                    )
-                    if(res.data.success) fetchUserData()
-                  } catch (error) {
-                    console.log("error while saving user data", error)
-                  }
-                }
-              }}
+              className={styles.saveBtn}
+              onClick={savePersonalInfo}
+              disabled={isLoading}
             >
-              {editMode.personal ? 'Save' : 'Edit'}
+              {isLoading ? <div className={styles.spinner}></div> : 'Save Changes'}
             </button>
           </div>
 
           <div className={styles.personalInfo}>
-            <div className={styles.profilePictureSection}>
+            <div className={styles.profileSection}>
               <div className={styles.profilePicture}>
                 {userData.profilePicture ? (
                   <img src={`${url}${userData.profilePicture}`} alt="Profile" />
                 ) : (
                   <div className={styles.placeholderPicture}>
-                    <span>+</span>
+                    <span>📷</span>
                     <p>Add Photo</p>
                   </div>
                 )}
+                <div className={styles.uploadOverlay}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileUpload(e, 'profile')}
+                    className={styles.fileInput}
+                    id="profile-upload"
+                  />
+                  <label htmlFor="profile-upload" className={styles.uploadLabel}>
+                    📸
+                  </label>
+                </div>
               </div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileUpload(e, 'profile')}
-                className={styles.fileInput}
-                id="profile-upload"
-              />
-              <label htmlFor="profile-upload" className={styles.uploadBtn}>
-                {userData.profilePicture ? 'Change Photo' : 'Upload Photo'}
-              </label>
             </div>
 
-            <div className={styles.infoFields}>
+            <div className={styles.infoGrid}>
               <div className={styles.field}>
-                <label>Name</label>
+                <label>Full Name</label>
                 <input
                   type="text"
-                  value={userData.name}
-                  onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))}
-                  disabled={!editMode.personal}
-                  placeholder="Enter your name"
+                  value={userData.username}
+                  onChange={(e) => {
+                    setUserData(prev => ({ ...prev, username: e.target.value }));
+                    setHasUnsavedChanges(true);
+                  }}
+                  placeholder="Enter your full name"
                 />
               </div>
 
               <div className={styles.field}>
-                <label>Email</label>
+                <label>Email Address</label>
                 <input
                   type="email"
                   value={userData.email}
-                  onChange={(e) => setUserData(prev => ({ ...prev, email: e.target.value }))}
-                  disabled={!editMode.personal}
+                  onChange={(e) => {
+                    setUserData(prev => ({ ...prev, email: e.target.value }));
+                    setHasUnsavedChanges(true);
+                  }}
                   placeholder="Enter your email"
                 />
               </div>
 
               <div className={styles.field}>
-                <label>Phone</label>
-                <input
-                  type="tel"
-                  value={userData.phone}
-                  onChange={(e) => setUserData(prev => ({ ...prev, phone: e.target.value }))}
-                  disabled={!editMode.personal}
-                  placeholder="Enter your phone number"
-                />
+                <label>Phone Number</label>
+                <div className={styles.phoneInputWrapper}>
+                  <input
+                    type="tel"
+                    value={userData.phone}
+                    onChange={(e) => {
+                      setUserData(prev => ({ ...prev, phone: e.target.value }));
+                      setHasUnsavedChanges(true);
+                    }}
+                    placeholder="Enter your phone number"
+                    className={userData.isPhoneVerified ? styles.verified : ''}
+                  />
+                  {userData.isPhoneVerified ? (
+                    <span className={styles.verifiedBadge}>✅ Verified</span>
+                  ) : (
+                    <button 
+                      className={styles.verifyBtn}
+                      onClick={handlePhoneVerification}
+                      disabled={isLoading || !userData.phone}
+                    >
+                      {isLoading ? <div className={styles.spinner}></div> : 'Verify'}
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className={styles.field}>
                 <label>Password</label>
-                <input
-                  type="password"
-                  value={userData.password}
-                  disabled
-                  placeholder="********"
-                />
-                <button className={styles.changePasswordBtn}>Change Password</button>
+                <div className={styles.passwordWrapper}>
+                  <input
+                    type="password"
+                    value="********"
+                    disabled
+                    placeholder="********"
+                  />
+                  <button className={styles.changePasswordBtn}>Change Password</button>
+                </div>
               </div>
             </div>
           </div>
@@ -493,12 +571,29 @@ const MyComponent = () => {
           <div className={styles.resumeSection}>
             {userData.resume ? (
               <div className={styles.resumeItem}>
-                <span>{userData['resume'].split('/media/68570f5948d0edb55b27e09f/resumes/')}</span>
-                <button className={styles.updateBtn}>Update Resume</button>
+                <div className={styles.resumeInfo}>
+                  <span>📄</span>
+                  <div>
+                    <p>Resume uploaded</p>
+                    <small>{userData.resume.split('/').pop()}</small>
+                  </div>
+                </div>
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => handleFileUpload(e, 'resume')}
+                  className={styles.fileInput}
+                  id="resume-update"
+                />
+                <label htmlFor="resume-update" className={styles.updateBtn}>
+                  Update Resume
+                </label>
               </div>
             ) : (
               <div className={styles.emptyState}>
-                <p>No resume uploaded</p>
+                <span>📄</span>
+                <h3>No resume uploaded</h3>
+                <p>Upload your resume to showcase your experience</p>
                 <input
                   type="file"
                   accept=".pdf,.doc,.docx"
@@ -514,90 +609,6 @@ const MyComponent = () => {
           </div>
         </div>
 
-        {/* Experience Section */}
-        <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <h2>Experience</h2>
-            <button className={styles.addBtn} onClick={addExperience}>
-              + Add Experience
-            </button>
-          </div>
-
-          {userData.experience.length > 0 ? (
-            <div className={styles.experienceList}>
-              {userData.experience.map((exp) => (
-                <div key={exp.id} className={styles.experienceItem}>
-                  <div className={styles.experienceFields}>
-                    <div className={styles.fieldRow}>
-                      <input
-                        type="text"
-                        placeholder="Company"
-                        value={exp.company}
-                        onChange={(e) => updateExperience(exp.id, 'company', e.target.value)}
-                      />
-                      <input
-                        type="text"
-                        placeholder="Position"
-                        value={exp.position}
-                        onChange={(e) => updateExperience(exp.id, 'position', e.target.value)}
-                      />
-                    </div>
-                    <div className={styles.fieldRow}>
-                      <input
-                        type="date"
-                        placeholder="Start Date"
-                        value={exp.startDate}
-                        onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)}
-                      />
-                      <input
-                        type="date"
-                        placeholder="End Date"
-                        value={exp.endDate}
-                        onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)}
-                        disabled={exp.current}
-                      />
-                      <label className={styles.checkbox}>
-                        <input
-                          type="checkbox"
-                          checked={exp.current}
-                          onChange={(e) => updateExperience(exp.id, 'current', e.target.checked)}
-                        />
-                        Currently working
-                      </label>
-                    </div>
-                    <textarea
-                          style={{color:'black'}}
-                      placeholder="Description"
-                      value={exp.description}
-                      onChange={(e) => updateExperience(exp.id, 'description', e.target.value)}
-                    />
-                  </div>
-                  <button 
-                    className={styles.removeBtn}
-                    onClick={() => removeExperience(exp.id)}
-                  >
-                    Remove
-                  </button>
-                  <button 
-                    style={{marginLeft:"20px"}}
-                    className={styles.addBtn}
-                    onClick={() => addExperienceToBackend()}
-                  >
-                    Add
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className={styles.emptyState}>
-              <p>No experience added yet</p>
-              <button className={styles.addBtn} onClick={addExperience}>
-                Add Your First Experience
-              </button>
-            </div>
-          )}
-        </div>
-
         {/* Skills Section */}
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
@@ -605,13 +616,15 @@ const MyComponent = () => {
           </div>
 
           <div className={styles.skillsSection}>
-            <div className={styles.skillsInput}>
+            <div className={styles.skillsInputWrapper}>
               <input
                 type="text"
                 placeholder="Search and add skills..."
                 value={newSkill}
                 onChange={(e) => handleSkillSearch(e.target.value)}
                 onFocus={() => setShowSkillDropdown(true)}
+                onBlur={() => setTimeout(() => setShowSkillDropdown(false), 200)}
+                className={styles.skillsInput}
               />
               {showSkillDropdown && (
                 <div className={styles.skillsDropdown}>
@@ -647,6 +660,93 @@ const MyComponent = () => {
           </div>
         </div>
 
+        {/* Experience Section */}
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2>Experience</h2>
+            <button className={styles.addBtn} onClick={addExperience}>
+              + Add Experience
+            </button>
+          </div>
+
+          {userData.experience.length > 0 ? (
+            <>
+              <div className={styles.itemsList}>
+                {userData.experience.map((exp) => (
+                  <div key={exp.id} className={styles.experienceItem}>
+                    <div className={styles.itemHeader}>
+                      <h4>{exp.position || 'New Position'}</h4>
+                      <button 
+                        className={styles.removeBtn}
+                        onClick={() => removeExperience(exp.id)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className={styles.formGrid}>
+                      <input
+                        type="text"
+                        placeholder="Company"
+                        value={exp.company}
+                        onChange={(e) => updateExperience(exp.id, 'company', e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Position"
+                        value={exp.position}
+                        onChange={(e) => updateExperience(exp.id, 'position', e.target.value)}
+                      />
+                      <input
+                        type="date"
+                        placeholder="Start Date"
+                        value={exp.startDate}
+                        onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)}
+                      />
+                      <input
+                        type="date"
+                        placeholder="End Date"
+                        value={exp.endDate}
+                        onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)}
+                        disabled={exp.current}
+                      />
+                      <label className={styles.checkbox}>
+                        <input
+                          type="checkbox"
+                          checked={exp.current}
+                          onChange={(e) => updateExperience(exp.id, 'current', e.target.checked)}
+                        />
+                        Currently working here
+                      </label>
+                      <textarea
+                        placeholder="Job description and achievements..."
+                        value={exp.description}
+                        onChange={(e) => updateExperience(exp.id, 'description', e.target.value)}
+                        rows={3}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button 
+                className={styles.saveBtn}
+                onClick={addExperienceToBackend}
+                disabled={isLoading}
+              >
+                {isLoading ? <div className={styles.spinner}></div> : 'Save Experience'}
+              </button>
+            </>
+          ) : (
+            <div className={styles.emptyState}>
+              <span>💼</span>
+              <h3>No experience added yet</h3>
+              <p>Add your work experience to showcase your career journey</p>
+              <button className={styles.addBtn} onClick={addExperience}>
+                Add Your First Experience
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Courses Section */}
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
@@ -657,53 +757,61 @@ const MyComponent = () => {
           </div>
 
           {userData.courses.length > 0 ? (
-            <div className={styles.coursesList}>
-              {userData.courses.map((course) => (
-                <div key={course.id} className={styles.courseItem}>
-                  <div className={styles.courseFields}>
-                    <input
-                      type="text"
-                      placeholder="Course Name"
-                      value={course.name}
-                      onChange={(e) => updateCourse(course.id, 'name', e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Institution"
-                      value={course.institution}
-                      onChange={(e) => updateCourse(course.id, 'institution', e.target.value)}
-                    />
-                    <input
-                      type="date"
-                      placeholder="Completion Date"
-                      value={course.completionDate}
-                      onChange={(e) => updateCourse(course.id, 'completionDate', e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Certificate URL (optional)"
-                      value={course.certificate}
-                      onChange={(e) => updateCourse(course.id, 'certificate', e.target.value)}
-                    />
+            <>
+              <div className={styles.itemsList}>
+                {userData.courses.map((course) => (
+                  <div key={course.id} className={styles.courseItem}>
+                    <div className={styles.itemHeader}>
+                      <h4>{course.name || 'New Course'}</h4>
+                      <button 
+                        className={styles.removeBtn}
+                        onClick={() => removeCourse(course.id)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className={styles.formGrid}>
+                      <input
+                        type="text"
+                        placeholder="Course Name"
+                        value={course.name}
+                        onChange={(e) => updateCourse(course.id, 'name', e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Institution"
+                        value={course.institution}
+                        onChange={(e) => updateCourse(course.id, 'institution', e.target.value)}
+                      />
+                      <input
+                        type="date"
+                        placeholder="Completion Date"
+                        value={course.completionDate}
+                        onChange={(e) => updateCourse(course.id, 'completionDate', e.target.value)}
+                      />
+                      <input
+                        type="url"
+                        placeholder="Certificate URL (optional)"
+                        value={course.certificate}
+                        onChange={(e) => updateCourse(course.id, 'certificate', e.target.value)}
+                      />
+                    </div>
                   </div>
-                  <button 
-                    className={styles.removeBtn}
-                    onClick={() => removeCourse(course.id)}
-                  >
-                    Remove
-                  </button>
-                  <button 
-                    className={styles.addBtn}
-                    onClick={() => handleAddCourse()}
-                  >
-                    Add
-                  </button>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              <button 
+                className={styles.saveBtn}
+                onClick={handleAddCourse}
+                disabled={isLoading}
+              >
+                {isLoading ? <div className={styles.spinner}></div> : 'Save Courses'}
+              </button>
+            </>
           ) : (
             <div className={styles.emptyState}>
-              <p>No courses added yet</p>
+              <span>🎓</span>
+              <h3>No courses added yet</h3>
+              <p>Add courses and certifications you've completed</p>
               <button className={styles.addBtn} onClick={addCourse}>
                 Add Your First Course
               </button>
@@ -721,65 +829,114 @@ const MyComponent = () => {
           </div>
 
           {userData.certifications.length > 0 ? (
-            <div className={styles.certificationsList}>
-              {userData.certifications.map((cert) => (
-                <div key={cert.id} className={styles.certificationItem}>
-                  <div className={styles.certificationFields}>
-                    <input
-                      type="text"
-                      placeholder="Certification Name"
-                      value={cert.name}
-                      onChange={(e) => updateCertification(cert.id, 'name', e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Issuer"
-                      value={cert.issuer}
-                      onChange={(e) => updateCertification(cert.id, 'issuer', e.target.value)}
-                    />
-                    <input
-                      type="date"
-                      placeholder="Issue Date"
-                      value={cert.issueDate}
-                      onChange={(e) => updateCertification(cert.id, 'issueDate', e.target.value)}
-                    />
-                    <input
-                      type="date"
-                      placeholder="Expiry Date (optional)"
-                      value={cert.expiryDate}
-                      onChange={(e) => updateCertification(cert.id, 'expiryDate', e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Credential ID (optional)"
-                      value={cert.credentialId}
-                      onChange={(e) => updateCertification(cert.id, 'credentialId', e.target.value)}
-                    />
+            <>
+              <div className={styles.itemsList}>
+                {userData.certifications.map((cert) => (
+                  <div key={cert.id} className={styles.certificationItem}>
+                    <div className={styles.itemHeader}>
+                      <h4>{cert.name || 'New Certification'}</h4>
+                      <button 
+                        className={styles.removeBtn}
+                        onClick={() => removeCertification(cert.id)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className={styles.formGrid}>
+                      <input
+                        type="text"
+                        placeholder="Certification Name"
+                        value={cert.name}
+                        onChange={(e) => updateCertification(cert.id, 'name', e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Issuer"
+                        value={cert.issuer}
+                        onChange={(e) => updateCertification(cert.id, 'issuer', e.target.value)}
+                      />
+                      <input
+                        type="date"
+                        placeholder="Issue Date"
+                        value={cert.issueDate}
+                        onChange={(e) => updateCertification(cert.id, 'issueDate', e.target.value)}
+                      />
+                      <input
+                        type="date"
+                        placeholder="Expiry Date (optional)"
+                        value={cert.expiryDate}
+                        onChange={(e) => updateCertification(cert.id, 'expiryDate', e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Credential ID (optional)"
+                        value={cert.credentialId}
+                        onChange={(e) => updateCertification(cert.id, 'credentialId', e.target.value)}
+                      />
+                    </div>
                   </div>
-                  <button 
-                    className={styles.removeBtn}
-                    onClick={() => removeCertification(cert.id)}
-                  >
-                    Remove
-                  </button>
-                  <button 
-                    className={styles.addBtn}
-                    onClick={() => handleAddCertification()}
-                  >
-                    Add
-                  </button>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              <button 
+                className={styles.saveBtn}
+                onClick={handleAddCertification}
+                disabled={isLoading}
+              >
+                {isLoading ? <div className={styles.spinner}></div> : 'Save Certifications'}
+              </button>
+            </>
           ) : (
             <div className={styles.emptyState}>
-              <p>No certifications added yet</p>
+              <span>🏆</span>
+              <h3>No certifications added yet</h3>
+              <p>Add professional certifications to boost your profile</p>
               <button className={styles.addBtn} onClick={addCertification}>
                 Add Your First Certification
               </button>
             </div>
           )}
         </div>
+
+        {/* OTP Modal */}
+        {showOTPModal && (
+          <div className={styles.modalOverlay} onClick={() => setShowOTPModal(false)}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.modalHeader}>
+                <span className={styles.modalIcon}>📱</span>
+                <h3>Verify Your Phone</h3>
+                <p>We've sent an OTP to your WhatsApp number {userData.phone}</p>
+              </div>
+              <div className={styles.modalBody}>
+                <input
+                  type="text"
+                  placeholder="Enter 6-digit OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className={styles.otpInput}
+                  maxLength={6}
+                />
+                <div className={styles.modalActions}>
+                  <button 
+                    className={styles.verifyOtpBtn}
+                    onClick={handleOTPVerification}
+                    disabled={isLoading || !otp}
+                  >
+                    {isLoading ? <div className={styles.spinner}></div> : 'Verify OTP'}
+                  </button>
+                  <button 
+                    className={styles.cancelBtn}
+                    onClick={() => {
+                      setShowOTPModal(false);
+                      setOtp('');
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );

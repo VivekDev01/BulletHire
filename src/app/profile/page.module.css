@@ -1,29 +1,67 @@
+/* Profile Page Styles */
 .container {
-  margin: 0 auto;
+  min-height: 100vh;
   padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #f0f4f8;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
 }
 
-.completionBadge {
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  opacity: 0.3;
+}
+
+/* Header Section */
+.header {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.completionCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 30px;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  gap: 25px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 500px;
+  width: 100%;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .completionCircle {
   position: relative;
-  margin-right: 20px;
+  width: 80px;
+  height: 80px;
 }
 
 .completionFill {
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -39,126 +77,149 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .completionText {
   font-size: 16px;
-  font-weight: bold;
-  color: #333;
+  font-weight: 700;
+  color: #667eea;
 }
 
-.completionInfo h3 {
-  margin: 0 0 5px 0;
-  font-size: 20px;
+.completionInfo h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .completionInfo p {
+  color: #718096;
   margin: 0;
-  opacity: 0.9;
   font-size: 14px;
+  font-weight: 500;
 }
 
-/* Section Styling */
+/* Section Styles */
 .section {
-  background: white;
-  border-radius: 12px;
-  padding: 25px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 30px;
   margin-bottom: 25px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.6s ease-out;
 }
 
 .sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   padding-bottom: 15px;
-  border-bottom: 2px solid #f5f5f5;
+  border-bottom: 2px solid #e2e8f0;
 }
 
 .sectionHeader h2 {
-  margin: 0;
-  color: #333;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Button Styles */
-.editBtn, .addBtn, .uploadBtn, .updateBtn, .removeBtn, .changePasswordBtn {
-  padding: 8px 16px;
+.saveBtn, .addBtn, .verifyBtn, .updateBtn, .uploadBtn {
+  padding: 12px 20px;
+  border-radius: 12px;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  font-weight: 600;
   font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
 }
 
-.editBtn {
-  background: #4CAF50;
+.saveBtn, .addBtn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
-.editBtn:hover {
-  background: #45a049;
+.saveBtn:hover, .addBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
 }
 
-.addBtn {
-  background: #2196F3;
+.verifyBtn {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
   color: white;
+  padding: 8px 16px;
+  font-size: 12px;
+  min-height: 36px;
 }
 
-.addBtn:hover {
-  background: #1976D2;
+.verifyBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3);
 }
 
-.uploadBtn {
-  background: #FF9800;
+.updateBtn, .uploadBtn {
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.updateBtn:hover, .uploadBtn:hover {
+  background: #667eea;
   color: white;
-}
-
-.uploadBtn:hover {
-  background: #F57C00;
-}
-
-.updateBtn {
-  background: #9C27B0;
-  color: white;
-}
-
-.updateBtn:hover {
-  background: #7B1FA2;
+  transform: translateY(-1px);
 }
 
 .removeBtn {
-  background: #f44336;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
   color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .removeBtn:hover {
-  background: #d32f2f;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
 }
 
-.changePasswordBtn {
-  background: #607D8B;
-  color: white;
-  margin-left: 10px;
-}
-
-.changePasswordBtn:hover {
-  background: #455A64;
+.saveBtn:disabled, .addBtn:disabled, .verifyBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Personal Information */
 .personalInfo {
   display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
+  gap: 40px;
+  align-items: flex-start;
 }
 
-.profilePictureSection {
-  flex: 0 0 200px;
+.profileSection {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -166,157 +227,185 @@
 }
 
 .profilePicture {
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid #e0e0e0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 4px;
+  box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
 }
 
 .profilePicture img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
+  background: white;
 }
 
 .placeholderPicture {
-  width: 100%;
-  height: 100%;
-  background: #f5f5f5;
+  width: 132px;
+  height: 132px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #999;
-}
-
-.placeholderPicture span {
-  font-size: 48px;
-  margin-bottom: 10px;
+  color: #a0aec0;
+  font-size: 24px;
 }
 
 .placeholderPicture p {
-  margin: 0;
-  font-size: 14px;
+  margin: 5px 0 0 0;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.fileInput {
-  display: none;
+.uploadOverlay {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
 }
 
-.infoFields {
+.uploadLabel {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.uploadLabel:hover {
+  transform: scale(1.1);
+}
+
+.infoGrid {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
 .field label {
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #333;
-}
-
-.field input {
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
+  font-weight: 600;
+  color: #4a5568;
   font-size: 14px;
-  transition: border-color 0.2s;
 }
 
-.field input:focus {
+.field input, .field textarea {
+  padding: 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.field input:focus, .field textarea:focus {
   outline: none;
-  border-color: #2196F3;
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
 }
 
-.field input:disabled {
-  background: #f9f9f9;
-  color: #666;
+.field input.verified {
+  border-color: #48bb78;
+  background: rgba(72, 187, 120, 0.05);
+}
+
+.phoneInputWrapper, .passwordWrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.phoneInputWrapper input, .passwordWrapper input {
+  flex: 1;
+}
+
+.verifiedBadge {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.changePasswordBtn {
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.changePasswordBtn:hover {
+  background: #667eea;
+  color: white;
 }
 
 /* Resume Section */
 .resumeSection {
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .resumeItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px;
-  background: #f9f9f9;
-  border-radius: 6px;
-  margin-bottom: 15px;
-}
-
-.resumeItem span {
-  font-weight: 500;
-  color: #333;
-}
-
-/* Experience Section */
-.experienceList {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.experienceItem {
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  background: rgba(102, 126, 234, 0.05);
   padding: 20px;
-  background: #fafafa;
-}
-
-.experienceFields {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.fieldRow {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.fieldRow input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  color: black;
-}
-
-.fieldRow textarea {
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  resize: vertical;
-  min-height: 80px;
-  color: black;
+  max-width: 500px;
 }
 
-.checkbox {
+.resumeInfo {
   display: flex;
   align-items: center;
-  gap: 5px;
-  white-space: nowrap;
-  color: black;
+  gap: 15px;
 }
 
-.checkbox input {
-  flex: none;
+.resumeInfo span {
+  font-size: 24px;
+}
+
+.resumeInfo div p {
+  margin: 0;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.resumeInfo div small {
+  color: #718096;
+  font-size: 12px;
 }
 
 /* Skills Section */
@@ -326,17 +415,29 @@
   gap: 20px;
 }
 
-.skillsInput {
+.skillsInputWrapper {
   position: relative;
+  max-width: 400px;
 }
 
-.skillsInput input {
+.skillsInput {
   width: 100%;
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #333;
+  padding: 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.skillsInput:focus {
+  outline: none;
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
 }
 
 .skillsDropdown {
@@ -345,24 +446,25 @@
   left: 0;
   right: 0;
   background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 2px solid #e2e8f0;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .skillOption {
-  padding: 10px 15px;
+  padding: 12px 15px;
   cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
-  transition: background-color 0.2s;
-  color: #333;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f7fafc;
 }
 
 .skillOption:hover {
-  background: #f5f5f5;
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
 }
 
 .skillOption:last-child {
@@ -376,122 +478,314 @@
 }
 
 .skillTag {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #e3f2fd;
-  color: #1976d2;
-  padding: 8px 12px;
-  border-radius: 20px;
   font-size: 14px;
   font-weight: 500;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.skillTag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
 }
 
 .skillTag button {
-  background: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
   border: none;
-  color: #1976d2;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 0;
-  width: 16px;
-  height: 16px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  transition: background-color 0.2s;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease;
 }
 
 .skillTag button:hover {
-  background: rgba(25, 118, 210, 0.1);
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
 }
 
-/* Courses Section */
-.coursesList {
+/* Items Lists (Experience, Courses, Certifications) */
+.itemsList {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-bottom: 25px;
 }
 
-.courseItem {
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
-  background: #fafafa;
+.experienceItem, .courseItem, .certificationItem {
+  background: rgba(102, 126, 234, 0.02);
+  border: 2px solid #e2e8f0;
+  border-radius: 15px;
+  padding: 25px;
+  transition: all 0.3s ease;
+}
+
+.experienceItem:hover, .courseItem:hover, .certificationItem:hover {
+  border-color: #667eea;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+.itemHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.courseFields {
-  flex: 1;
+.itemHeader h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+}
+
+.formGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 15px;
+  align-items: start;
 }
 
-.courseFields input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.formGrid input, .formGrid textarea {
+  padding: 12px 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
   font-size: 14px;
-  color: #333;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+  color: #2d3748;
+  font-weight: 500;
 }
 
-.courseFields input:nth-child(3),
-.courseFields input:nth-child(4) {
+.formGrid input:focus, .formGrid textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.formGrid textarea {
+  grid-column: 1 / -1;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+  cursor: pointer;
   grid-column: 1 / -1;
 }
 
-/* Certifications Section */
-.certificationsList {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.checkbox input {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: #667eea;
 }
 
-.certificationItem {
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
-  background: #fafafa;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-}
-
-.certificationFields {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
-
-.certificationFields input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  color: #333;
-}
-
-.certificationFields input:nth-child(5) {
-  grid-column: 1 / -1;
-}
-
-/* Empty State */
+/* Empty States */
 .emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   padding: 40px 20px;
-  color: #666;
+  color: #718096;
+}
+
+.emptyState span {
+  font-size: 48px;
+  margin-bottom: 15px;
+  opacity: 0.7;
+}
+
+.emptyState h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a5568;
+  margin: 0 0 8px 0;
 }
 
 .emptyState p {
-  margin-bottom: 20px;
+  margin: 0 0 25px 0;
+  font-size: 14px;
+  max-width: 300px;
+}
+
+/* File Inputs */
+.fileInput {
+  display: none;
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modalContent {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  animation: modalSlide 0.3s ease-out;
+}
+
+@keyframes modalSlide {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalHeader {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.modalIcon {
+  font-size: 60px;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.modalHeader h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 10px 0;
+}
+
+.modalHeader p {
+  color: #718096;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.otpInput {
+  padding: 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 4px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.otpInput:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modalActions {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.verifyOtpBtn {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
   font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+}
+
+.verifyOtpBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3);
+}
+
+.verifyOtpBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  background: transparent;
+  color: #718096;
+  border: 2px solid #e2e8f0;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancelBtn:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+  color: #4a5568;
 }
 
 /* Responsive Design */
@@ -500,28 +794,26 @@
     padding: 15px;
   }
   
+  .section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .completionCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 25px;
+  }
+  
   .personalInfo {
     flex-direction: column;
+    gap: 25px;
     align-items: center;
   }
   
-  .profilePictureSection {
-    flex: none;
-  }
-  
-  .infoFields {
+  .infoGrid {
     grid-template-columns: 1fr;
     width: 100%;
-  }
-  
-  .completionBadge {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .completionCircle {
-    margin-right: 0;
-    margin-bottom: 15px;
   }
   
   .sectionHeader {
@@ -530,118 +822,50 @@
     align-items: stretch;
   }
   
-  .fieldRow {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .courseFields,
-  .certificationFields {
+  .formGrid {
     grid-template-columns: 1fr;
   }
   
-  .courseItem,
-  .certificationItem {
+  .phoneInputWrapper, .passwordWrapper {
     flex-direction: column;
+    align-items: stretch;
   }
   
-  .experienceItem {
-    padding: 15px;
+  .modalContent {
+    padding: 30px 20px;
+    margin: 20px;
   }
 }
 
 @media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  
   .section {
-    padding: 20px 15px;
-  }
-  
-  .sectionHeader h2 {
-    font-size: 20px;
-  }
-  
-  .completionBadge {
     padding: 15px;
+    border-radius: 15px;
   }
   
-  .completionFill {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .completionInner {
-    width: 45px;
-    height: 45px;
-  }
-  
-  .completionText {
-    font-size: 14px;
+  .completionCard {
+    padding: 20px;
   }
   
   .profilePicture {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
-}
-
-/* Animation for smooth transitions */
-.section {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  
+  .placeholderPicture {
+    width: 92px;
+    height: 92px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .skillsList {
+    justify-content: center;
   }
-}
-
-/* Focus styles for better accessibility */
-.editBtn:focus,
-.addBtn:focus,
-.uploadBtn:focus,
-.updateBtn:focus,
-.removeBtn:focus,
-.changePasswordBtn:focus {
-  outline: 2px solid #2196F3;
-  outline-offset: 2px;
-}
-
-/* Improved form styling */
-.field input:focus,
-.experienceFields input:focus,
-.experienceFields textarea:focus,
-.courseFields input:focus,
-.certificationFields input:focus {
-  border-color: #2196F3;
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
-}
-
-/* Loading state styles (for future use) */
-.loading {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* Success message styles (for future use) */
-.successMessage {
-  background: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* Error message styles (for future use) */
-.errorMessage {
-  background: #f44336;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  text-align: center;
+  
+  .formGrid input, .formGrid textarea {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
 }
