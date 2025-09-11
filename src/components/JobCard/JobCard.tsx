@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import styles from './JobCard.module.css'
+import axios from "axios";
+import { url } from "../../config";
 
 // // Sample job data for demonstration
 // const sampleJobDetails = {
@@ -17,6 +19,7 @@ import styles from './JobCard.module.css'
 // };
 
 type JobDetails = {
+    _id?: string;
     role: string;
     location: string;
     experience: string;
@@ -39,6 +42,25 @@ export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
     let postedAt = jobDetails.created_at ? new Date(jobDetails.created_at).toLocaleDateString() : "Unknown"
 
     let postedBy = jobDetails.user.username;
+
+    const handleApply = async () => {
+        try {
+            console.log('Applying for job:', jobDetails);
+            const res =  await axios.post(`${url}/api/apply`, { jobId: jobDetails?._id }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if(res.status === 200){
+                alert('Application submitted successfully!');
+            } else {
+                alert('Failed to submit application. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            alert('An error occurred. Please try again later.');
+        }
+    }
 
     return(
         <div className={styles.jobCard}>
@@ -113,7 +135,7 @@ export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
                 <span className={styles.postedDate}>{postedAt}</span>
                 <div className={styles.actionButtons}>
                     <button className={styles.btnSecondary}>View Details</button>
-                    <button className={styles.btnPrimary}>Apply Now</button>
+                    <button className={styles.btnPrimary} onClick={handleApply}>Apply Now</button>
                 </div>
             </div>
         </div>
