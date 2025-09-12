@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styles from './JobCard.module.css'
 import axios from "axios";
 import { url } from "../../config";
+import { userContext } from "../Layout";
 
 // // Sample job data for demonstration
 // const sampleJobDetails = {
@@ -29,10 +30,12 @@ type JobDetails = {
     user: {
         username: string;
     };
+    applicants?: string[];
 };
 
 export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const userData = useContext(userContext);
     
     let role = jobDetails.role;
     let location = jobDetails.location;
@@ -133,9 +136,28 @@ export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
 
             <div className={styles.jobCardFooter}>
                 <span className={styles.postedDate}>{postedAt}</span>
+                
+                <span className={styles.applicantCount}>
+                    Applicants : { jobDetails && jobDetails.applicants ? jobDetails.applicants.length : 0 }
+                </span>
+
+                {/* <span className={styles.yourScore}>
+                    Your Position: 
+                </span> */}
+
+ 
                 <div className={styles.actionButtons}>
                     <button className={styles.btnSecondary}>View Details</button>
-                    <button className={styles.btnPrimary} onClick={handleApply}>Apply Now</button>
+                    {
+                        jobDetails.applicants && jobDetails.applicants.includes(userData?.email) ?
+                        <button className={styles.appliedBtn} disabled>
+                            Applied
+                        </button>
+                        :
+                        <button className={styles.btnPrimary} onClick={handleApply}>
+                            Apply Now
+                        </button>
+                    }
                 </div>
             </div>
         </div>

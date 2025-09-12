@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styles from './Header.module.css';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -18,6 +18,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from 'axios';
 import { url } from '../config';
+import { userContext } from '../components/Layout'
 
 const Header = () => {
     const pathname = usePathname();
@@ -25,15 +26,16 @@ const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const open = Boolean(anchorEl);
-    const [userData, setUserData] = useState({
-        name: '',
-        email: '',
-        profilePicture: '',
-        id: ''
-    });
+    // const [userData, setUserData] = useState({
+    //     name: '',
+    //     email: '',
+    //     profilePicture: '',
+    //     id: ''
+    // });
     const [mounted, setMounted] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const router = useRouter();
+    const userData = useContext(userContext);
 
     useEffect(() => {
         setMounted(true);
@@ -51,45 +53,45 @@ const Header = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        if (isAuthenticated && typeof window !== "undefined") {
-            const fetchUserData = async () => {
-                try {
-                    const response = await axios.get(`${url}/api/get_user`, {
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem('token')}`
-                        }
-                    });
-                    const user = response.data.user;
-                    if (user) {
-                        setUserData({
-                            name: user.username || '',
-                            email: user.email || '',
-                            profilePicture: user.profilePicture || '',
-                            id: user._id || ''
-                        });
-                        localStorage.setItem('userId', user._id || '');
-                    } else {
-                        setUserData({
-                            name: '',
-                            email: '',
-                            profilePicture: '',
-                            id: ''
-                        });
-                    }
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                    setUserData({
-                        name: '',
-                        email: '',
-                        profilePicture: '',
-                        id: ''
-                    });
-                }
-            };
-            fetchUserData();
-        }
-    }, [isAuthenticated]);
+    // useEffect(() => {
+    //     if (isAuthenticated && typeof window !== "undefined") {
+    //         const fetchUserData = async () => {
+    //             try {
+    //                 const response = await axios.get(`${url}/api/get_user`, {
+    //                     headers: {
+    //                         Authorization: `Bearer ${localStorage.getItem('token')}`
+    //                     }
+    //                 });
+    //                 const user = response.data.user;
+    //                 if (user) {
+    //                     setUserData({
+    //                         name: user.username || '',
+    //                         email: user.email || '',
+    //                         profilePicture: user.profilePicture || '',
+    //                         id: user._id || ''
+    //                     });
+    //                     localStorage.setItem('userId', user._id || '');
+    //                 } else {
+    //                     setUserData({
+    //                         name: '',
+    //                         email: '',
+    //                         profilePicture: '',
+    //                         id: ''
+    //                     });
+    //                 }
+    //             } catch (error) {
+    //                 console.error('Error fetching user data:', error);
+    //                 setUserData({
+    //                     name: '',
+    //                     email: '',
+    //                     profilePicture: '',
+    //                     id: ''
+    //                 });
+    //             }
+    //         };
+    //         fetchUserData();
+    //     }
+    // }, [isAuthenticated]);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);

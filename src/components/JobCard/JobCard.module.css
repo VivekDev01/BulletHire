@@ -168,7 +168,8 @@
 }
 
 .btnSecondary,
-.btnPrimary {
+.btnPrimary,
+.appliedBtn {
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
@@ -200,6 +201,27 @@
   background: linear-gradient(45deg, #ff5252, #ff7575);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.appliedBtn{
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: default;
+}
+.appliedBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: none;
+}
+
+.applicantCount{
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.yourScore{
+  font-size: 12px;
+  opacity: 0.7;
 }
 
 /* Mobile Responsiveness */
