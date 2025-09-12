@@ -47,8 +47,8 @@ export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
         try {
             console.log('Applying for job:', jobDetails);
             const res =  await axios.post(`${url}/api/apply`, { jobId: jobDetails?._id }, {
-                headers: {
-                    'Content-Type': 'application/json',
+                headers:{
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
             if(res.status === 200){
