@@ -1,5 +1,5 @@
 .main{
-    background-color: aliceblue;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     min-height: 100vh;
     padding: 20px;
 }
