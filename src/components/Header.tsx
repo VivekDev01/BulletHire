@@ -19,8 +19,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import axios from 'axios';
 import { url } from '../config';
 import { userContext } from '../components/Layout'
+import { motion, useScroll } from "motion/react"
+
 
 const Header = () => {
+  const { scrollYProgress } = useScroll();
+
     const pathname = usePathname();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -138,6 +142,21 @@ const Header = () => {
 
     return (
         <div className={`${styles.container} ${scrolled ? styles.scrolled : ''}`}>
+            <motion.div
+                id="scroll-indicator"
+                style={{
+                    scaleX: scrollYProgress,
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 2,
+                    originX: 0, 
+                    zIndex: 100,
+                    backgroundColor: "#ff0088",
+                }}
+                >
+            </motion.div>
             <header className={styles.header}>
                 <div className={styles.logo} onClick={() => router.push('/')}>
                     <div className={styles.logoIcon}>BH</div>

@@ -11,6 +11,7 @@ import RocketIcon from '@mui/icons-material/Rocket';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
+import React from 'react';
 
 export default function Home() {
   return (
