@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, createContext } from 'react';
 import Header from './Header';
 import Footer from './Footer';
@@ -64,7 +66,8 @@ const Layout = ({ children, className, fullWidth = true, centered = false }: Pro
           });
         }
       };
-      fetchUserData();
+      
+      if(localStorage.getItem('token')) fetchUserData();
     }
   }, []);
 
