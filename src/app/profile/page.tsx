@@ -82,7 +82,7 @@ const MyComponent = () => {
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  // const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const fetchUserData = async () => {
     try {
@@ -220,7 +220,7 @@ const MyComponent = () => {
         }
       });
       if(res.data.success) {
-        setHasUnsavedChanges(false);
+        // setHasUnsavedChanges(false);
         alert('Personal information saved successfully!');
         fetchUserData();
       }
@@ -501,7 +501,7 @@ const MyComponent = () => {
                   value={userData.username}
                   onChange={(e) => {
                     setUserData(prev => ({ ...prev, username: e.target.value }));
-                    setHasUnsavedChanges(true);
+                    // setHasUnsavedChanges(true);
                   }}
                   placeholder="Enter your full name"
                 />
@@ -514,7 +514,7 @@ const MyComponent = () => {
                   value={userData.email}
                   onChange={(e) => {
                     setUserData(prev => ({ ...prev, email: e.target.value }));
-                    setHasUnsavedChanges(true);
+                    // setHasUnsavedChanges(true);
                   }}
                   placeholder="Enter your email"
                 />
@@ -528,7 +528,7 @@ const MyComponent = () => {
                     value={userData.phone}
                     onChange={(e) => {
                       setUserData(prev => ({ ...prev, phone: e.target.value }));
-                      setHasUnsavedChanges(true);
+                      // setHasUnsavedChanges(true);
                     }}
                     placeholder="Enter your phone number"
                     className={userData.isPhoneVerified ? styles.verified : ''}
@@ -642,7 +642,7 @@ const MyComponent = () => {
                       className={styles.skillOption}
                       onClick={() => handleAddSkill(newSkill)}
                     >
-                      Add "{newSkill}"
+                      Add &quot;{newSkill}&quot;
                     </div>
                   )}
                 </div>
@@ -811,7 +811,7 @@ const MyComponent = () => {
             <div className={styles.emptyState}>
               <span>🎓</span>
               <h3>No courses added yet</h3>
-              <p>Add courses and certifications you've completed</p>
+              <p>Add courses and certifications you&apos;ve completed</p>
               <button className={styles.addBtn} onClick={addCourse}>
                 Add Your First Course
               </button>
@@ -904,7 +904,7 @@ const MyComponent = () => {
               <div className={styles.modalHeader}>
                 <span className={styles.modalIcon}>📱</span>
                 <h3>Verify Your Phone</h3>
-                <p>We've sent an OTP to your WhatsApp number {userData.phone}</p>
+                <p>We&apos;ve sent an OTP to your WhatsApp number {userData.phone}</p>
               </div>
               <div className={styles.modalBody}>
                 <input

@@ -1,6 +1,5 @@
 'use client';
 
-import { notFound } from 'next/navigation';
 import styles from './page.module.css'
 import axios from 'axios';
 import Layout from '@/components/Layout';

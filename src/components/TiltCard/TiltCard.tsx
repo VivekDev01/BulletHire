@@ -3,9 +3,8 @@
 import { useRef, useEffect } from 'react'
 import { motion, useSpring } from 'motion/react'
 import styles from './TiltCard.module.css'
-import type { MenuProps } from 'antd';
-import { Button, Dropdown, Space, Tag } from 'antd';
-import { MapPin, Clock, DollarSign, Users, Calendar, Award } from 'lucide-react';
+import { Button, Tag } from 'antd';
+import { MapPin, DollarSign, Users, Calendar, Award } from 'lucide-react';
 
 const springConfig = { stiffness: 150, damping: 20 }
 

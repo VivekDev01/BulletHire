@@ -1,5 +1,3 @@
-/* === pages/index.tsx === */
-import Head from 'next/head';
 import styles from './page.module.css';
 import Image from 'next/image';
 import WorkIcon from '@mui/icons-material/Work';

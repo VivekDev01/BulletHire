@@ -11,11 +11,11 @@ const GeneratedJobDescriptionPage = () => {
   const params = useParams();
   const jd_id = params.jd_id as string;
 
-  const [role, setRole] = useState('Data Scientist');
-  const [isEditingRole, setIsEditingRole] = useState(false);
+//   const [role, setRole] = useState('Data Scientist');
+//   const [isEditingRole, setIsEditingRole] = useState(false);
 
-  const [location, setLocation] = useState('Bengaluru');
-  const [isEditingLocation, setIsEditingLocation] = useState(false);
+//   const [location, setLocation] = useState('Bengaluru');
+//   const [isEditingLocation, setIsEditingLocation] = useState(false);
 
   const [description, setDescription] = useState('');
   const [isEditingDescription, setIsEditingDescription] = useState(false);
@@ -32,8 +32,8 @@ const GeneratedJobDescriptionPage = () => {
         }
       );
       if (response.data) {
-        setRole(response.data.job.role);
-        setLocation(response.data.job.location);
+        // setRole(response.data.job.role);
+        // setLocation(response.data.job.location);
         setDescription(response.data.job.jd);
       }
     } catch (error) {

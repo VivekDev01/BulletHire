@@ -6,8 +6,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import DashboardIcon from '@mui/icons-material/Dashboard';

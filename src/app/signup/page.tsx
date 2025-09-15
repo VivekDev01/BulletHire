@@ -80,9 +80,9 @@ export default function SignupPage() {
       console.log(response.data);
       setEmailVerificationModalOpen(true);
       setIsLoading(false);
-    } catch (err: any) {
+    } catch (err) {
       console.error('Signup error:', err);
-      alert(err?.response?.data?.message || 'Signup failed');
+      // alert(err?.response?.data?.message || 'Signup failed');
       setIsLoading(false);
     }
   };
@@ -250,7 +250,7 @@ export default function SignupPage() {
             <div className={styles.modalHeader}>
               <CheckCircleIcon className={styles.modalIcon} />
               <h2>Verify Your Email</h2>
-              <p>We've sent a verification code to your email address</p>
+              <p>We&apos;ve sent a verification code to your email address</p>
             </div>
             
             <div className={styles.modalBody}>

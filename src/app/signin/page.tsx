@@ -41,9 +41,9 @@ export default function LoginPage() {
       alert(response.data.message);
       localStorage.setItem('token', response.data.token);
       window.location.href = '/home';
-    } catch (err: any) {
+    } catch (err) {
       console.error('Login error:', err);
-      alert(err?.response?.data?.message || 'Login failed');
+      // alert(err?.response?.data?.message || 'Login failed');
       setIsLoading(false);
     }
   };
@@ -53,7 +53,7 @@ export default function LoginPage() {
     window.location.href = `${url}/auth/login`;
   };
 
-  const handleKeyPress = (e: any) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSubmit();
     }
@@ -149,7 +149,7 @@ export default function LoginPage() {
 
           <div className={styles.footer}>
             <p className={styles.toggleText}>
-              Don't have an account?
+              Don&apos;t have an account?
               <Link href="/signup" className={styles.link}>
                 Sign up
               </Link>

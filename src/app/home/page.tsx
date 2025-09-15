@@ -16,7 +16,15 @@ type Comment = {
   comment: string;
   created_at: string;
   likes: string[];
-  replies: any[];
+  replies: Reply[];
+};
+
+type Reply = {
+  _id: string;
+  user_id: string;
+  username: string;
+  reply: string;
+  created_at: string;
 };
 
 type Post = {
@@ -53,6 +61,7 @@ const FeedPage = () => {
       });
       setPosts(response.data.posts);
     } catch (error) {
+      console.error('Error fetching posts:', error);
     }
   };
 
@@ -68,7 +77,9 @@ const FeedPage = () => {
         }
       });
       getPosts();
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
   };
 
   const handleShare = async (postId: string) => {
@@ -79,7 +90,9 @@ const FeedPage = () => {
         }
       });
       getPosts();
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
   };
 
   const handleComment = async (postId: string) => {
@@ -93,11 +106,13 @@ const FeedPage = () => {
       });
       setCommentText((prev) => ({ ...prev, [postId]: '' }));
       getPosts();
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
   };
 
 
-  const handleLikeComment = async (postId: string, comment: any) => {
+  const handleLikeComment = async (postId: string, comment: Comment) => {
     if (!comment._id) return;
     try {
       await axios.post(`${url}/like_comment`, { post_id: postId, comment_id: comment._id }, {
@@ -106,15 +121,17 @@ const FeedPage = () => {
         }
       });
       getPosts();
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
   };
 
-  const handleReplyClick = (postId: string, comment: any, idx: number) => {
-    const key = `${postId}_${idx}`;
-    setShowReplyInput(prev => ({ ...prev, [key]: !prev[key] }));
-  };
+  // const handleReplyClick = (postId: string, comment: Comment, idx: number) => {
+  //   const key = `${postId}_${idx}`;
+  //   setShowReplyInput(prev => ({ ...prev, [key]: !prev[key] }));
+  // };
 
-  const handlePostReply = async (postId: string, comment: any, idx: number) => {
+  const handlePostReply = async (postId: string, comment: Comment, idx: number) => {
     const key = `${postId}_${idx}`;
     const text = replyText[key];
     if (!text || !text.trim() || !comment._id) return;
@@ -127,7 +144,9 @@ const FeedPage = () => {
       setReplyText(prev => ({ ...prev, [key]: '' }));
       setShowReplyInput(prev => ({ ...prev, [key]: false }));
       getPosts();
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
   };
 
   const handleDeleteComment = async (postId: string, commentId: string) => {
@@ -284,7 +303,7 @@ const FeedPage = () => {
                             </div>
                             {showReplies[replyKey] && c.replies && c.replies.length > 0 && (
                               <div className={styles.repliesContainer}>
-                                {c.replies.map((reply: any, ridx: number) => (
+                                {c.replies.map((reply: Reply, ridx: number) => (
                                   <div key={ridx} className={styles.replyBox}>
                                     <div className={styles.replyAvatar}>{reply.username ? reply.username[0].toUpperCase() : 'U'}</div>
                                     <div className={styles.replyContent}>
@@ -292,7 +311,7 @@ const FeedPage = () => {
                                         <span className={styles.replyUser}>{reply.username}</span>
                                         <span className={styles.replyDate}>{reply.created_at ? new Date(reply.created_at).toLocaleString() : ''}</span>
                                       </div>
-                                      <div className={styles.replyText}>{reply.comment || reply.reply}</div>
+                                      <div className={styles.replyText}>{reply.reply}</div>
                                     </div>
                                   </div>
                                 ))}

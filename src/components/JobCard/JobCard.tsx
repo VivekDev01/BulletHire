@@ -37,14 +37,14 @@ export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const userData = useContext(userContext);
     
-    let role = jobDetails.role;
-    let location = jobDetails.location;
-    let experience = jobDetails.experience;
-    let salary = jobDetails.salary ? jobDetails.salary : "Not specified";
-    let skills = jobDetails.skills ? jobDetails.skills.split(", ") : [];
-    let postedAt = jobDetails.created_at ? new Date(jobDetails.created_at).toLocaleDateString() : "Unknown"
+    const role = jobDetails.role;
+    const location = jobDetails.location;
+    const experience = jobDetails.experience;
+    const salary = jobDetails.salary ? jobDetails.salary : "Not specified";
+    const skills = jobDetails.skills ? jobDetails.skills.split(", ") : [];
+    const postedAt = jobDetails.created_at ? new Date(jobDetails.created_at).toLocaleDateString() : "Unknown"
 
-    let postedBy = jobDetails.user.username;
+    const postedBy = jobDetails.user.username;
 
     const handleApply = async () => {
         try {
