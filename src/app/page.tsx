@@ -4,9 +4,6 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { 
-  Work as WorkIcon,
-  FactCheck as FactCheckIcon,
-  CalendarMonth as CalendarMonthIcon,
   TipsAndUpdates as TipsAndUpdatesIcon,
   LockOpen as LockOpenIcon,
   Rocket as RocketIcon,
@@ -17,15 +14,10 @@ import {
   Palette as PaletteIcon,
   Storage as StorageIcon,
   BarChart as BarChartIcon,
-  Menu as MenuIcon,
-  Close as CloseIcon
 } from '@mui/icons-material';
 import Layout from '@/components/Layout';
-import Image from 'next/image';
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [rocketAnimating, setRocketAnimating] = useState(false);
 
   const handleRocketClick = () => {
@@ -73,7 +65,7 @@ export default function Home() {
     const animateCounters = () => {
       const counters = document.querySelectorAll(`.${styles.stat} h3`);
       counters.forEach(counter => {
-        const target = parseInt(counter.textContent);
+        const target = parseInt(counter.textContent ?? "0", 10);
         const increment = target / 100;
         let current = 0;
         
@@ -99,7 +91,6 @@ export default function Home() {
 
     // Handle scroll events
     const handleScroll = () => {
-      setScrollY(window.scrollY);
       animateOnScroll();
     };
 
@@ -112,9 +103,6 @@ export default function Home() {
     };
   }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   const heroTitles = ['Find, Assess & Hire', 'Discover Top Talent', 'Build Great Teams'];
   const [currentTitle, setCurrentTitle] = useState(0);
