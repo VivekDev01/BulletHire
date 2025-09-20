@@ -299,7 +299,6 @@ export default function Home() {
             <div className={`${styles.featuresVisual} ${styles.animateOnScroll}`}>
               <div className={styles.featuresImage}>
                 <BarChartIcon style={{ fontSize: '10rem' }} />
-                {/* <Image src="/images/hire_with_ai.jpeg" width={500} height={120} alt="Features Visual" /> */}
               </div>
             </div>
           </div>
@@ -308,12 +307,16 @@ export default function Home() {
         {/* Recruiter CTA Section */}
         <section className={styles.ctaSection} id="become-recruiter">
           <div className={styles.sectionContainer}>
-            <div className={`${styles.ctaContent} ${styles.animateOnScroll}`}>
-              <h2>Become a Recruiter</h2>
-              <p>
+
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionBadge}>Become a Recruiter</span>
+              <h2 className={styles.sectionTitle}>
                 Join Drimsort as a recruiter and start finding the best talent effortlessly. 
-                Post your job requirements, let our AI shortlist candidates, and streamline your hiring process.
-              </p>
+              </h2>
+            </div>
+
+
+            <div className={`${styles.ctaContent} ${styles.animateOnScroll}`}>
               <Link href="/create-jd" className={styles.btnPrimary}>
                 Create Job Description <span>+</span>
               </Link>
