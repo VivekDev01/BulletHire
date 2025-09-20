@@ -18,11 +18,7 @@ export const metadata: Metadata = {
   title: "Drimsort",
   description: "Get hired and hire using AI agents",
   icons: {
-    icon: [
-      { url: "/favicon.png", type: "image/png" },
-      { url: "/favicon.png", rel: "shortcut icon", type: "image/png" }
-
-    ]
+    icon: '/favicon.png',
   },
 };
 
@@ -34,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <link rel="icon" href="/images/logo_cropped.png" type="image/png" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
       </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
