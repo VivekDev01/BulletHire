@@ -17,6 +17,9 @@ import HelpIcon from '@mui/icons-material/Help';
 import SecurityIcon from '@mui/icons-material/Security';
 import GavelIcon from '@mui/icons-material/Gavel';
 import PolicyIcon from '@mui/icons-material/Policy';
+import dynamic from "next/dynamic";
+
+const NewsletterForm = dynamic(() => import("./NewsletterForm/NewsletterForm"), { ssr: false });
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -144,7 +147,7 @@ const Footer = () => {
                             </div>
                         </div>
                         
-                        <div className={styles.newsletter}>
+                        {/* <div className={styles.newsletter}>
                             <h4 className={styles.newsletterTitle}>Stay Updated</h4>
                             <p className={styles.newsletterText}>Get the latest jobs and career tips delivered to your inbox</p>
                             <div className={styles.newsletterForm}>
@@ -155,7 +158,8 @@ const Footer = () => {
                                 />
                                 <button className={styles.newsletterButton}>Subscribe</button>
                             </div>
-                        </div>
+                        </div> */}
+                        <NewsletterForm />
                     </div>
                 </div>
 

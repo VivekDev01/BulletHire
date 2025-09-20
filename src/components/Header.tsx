@@ -18,6 +18,7 @@ import axios from 'axios';
 import { url } from '../config';
 import { userContext } from '../components/Layout'
 import { motion, useScroll } from "motion/react"
+import Image from 'next/image';
 
 
 const Header = () => {
@@ -151,16 +152,15 @@ const Header = () => {
                     height: 2,
                     originX: 0, 
                     zIndex: 100,
-                    backgroundColor: "#ff0088",
+                    backgroundColor: "#6D69CC",
                 }}
                 >
             </motion.div>
             <header className={styles.header}>
                 <div className={styles.logo} onClick={() => router.push('/')}>
-                    <div className={styles.logoIcon}>BH</div>
                     <div className={styles.logoText}>
-                        <span className={styles.logoMain}>Bullet</span>
-                        <span className={styles.logoAccent}>Hire</span>
+                    <Image src="/images/logo_cropped.png" alt="Logo" width={40} height={40} className={styles.logoImage} />
+                    <Image src="/images/brand.png" alt="Brand Name" width={120} height={60} className={styles.brandName} />
                     </div>
                 </div>
 
