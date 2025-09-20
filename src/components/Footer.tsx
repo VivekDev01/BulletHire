@@ -18,12 +18,16 @@ import SecurityIcon from '@mui/icons-material/Security';
 import GavelIcon from '@mui/icons-material/Gavel';
 import PolicyIcon from '@mui/icons-material/Policy';
 import dynamic from "next/dynamic";
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 
 const NewsletterForm = dynamic(() => import("./NewsletterForm/NewsletterForm"), { ssr: false });
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
-
+    const router = useRouter();
+    
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
@@ -31,11 +35,17 @@ const Footer = () => {
                 <div className={styles.footerContent}>
                     {/* Company Info */}
                     <div className={styles.section}>
-                        <div className={styles.logoSection}>
+                        {/* <div className={styles.logoSection}>
                             <div className={styles.logoIcon}>BH</div>
                             <div className={styles.logoText}>
                                 <span className={styles.logoMain}>Bullet</span>
                                 <span className={styles.logoAccent}>Hire</span>
+                            </div>
+                        </div> */}
+                        <div className={styles.logo} onClick={() => router.push('/')}>
+                            <div className={styles.logoText}>
+                            <Image src="/images/logo_cropped.png" alt="Logo" width={40} height={40} className={styles.logoImage} />
+                            <Image src="/images/brand.png" alt="Brand Name" width={120} height={60} className={styles.brandName} />
                             </div>
                         </div>
                         <p className={styles.description}>
@@ -49,11 +59,11 @@ const Footer = () => {
                             </div>
                             <div className={styles.contactItem}>
                                 <EmailIcon className={styles.contactIcon} />
-                                <span>contact@bullethire.com</span>
+                                <span>support@drimsort.com</span>
                             </div>
                             <div className={styles.contactItem}>
                                 <PhoneIcon className={styles.contactIcon} />
-                                <span>+91 12345 67890</span>
+                                <span>+91-8718836845</span>
                             </div>
                         </div>
                     </div>
@@ -132,16 +142,16 @@ const Footer = () => {
                         <div className={styles.socialLinks}>
                             <h4 className={styles.socialTitle}>Follow Us</h4>
                             <div className={styles.socialIcons}>
-                                <a href="https://twitter.com/bullethire" className={styles.socialIcon} aria-label="Twitter">
+                                <a href="https://twitter.com/drimsort" className={styles.socialIcon} aria-label="Twitter">
                                     <TwitterIcon />
                                 </a>
-                                <a href="https://linkedin.com/company/bullethire" className={styles.socialIcon} aria-label="LinkedIn">
+                                <a href="https://linkedin.com/company/drimsort" className={styles.socialIcon} aria-label="LinkedIn">
                                     <LinkedInIcon />
                                 </a>
-                                <a href="https://facebook.com/bullethire" className={styles.socialIcon} aria-label="Facebook">
+                                <a href="https://facebook.com/drimsort" className={styles.socialIcon} aria-label="Facebook">
                                     <FacebookIcon />
                                 </a>
-                                <a href="https://instagram.com/bullethire" className={styles.socialIcon} aria-label="Instagram">
+                                <a href="https://instagram.com/drimsort" className={styles.socialIcon} aria-label="Instagram">
                                     <InstagramIcon />
                                 </a>
                             </div>
@@ -198,14 +208,14 @@ const Footer = () => {
                 <div className={styles.bottomBar}>
                     <div className={styles.bottomContent}>
                         <p className={styles.copyright}>
-                            © {currentYear} BulletHire. All rights reserved.
+                            © {currentYear} Drimsort. All rights reserved.
                         </p>
-                        <div className={styles.bottomLinks}>
+                        {/* <div className={styles.bottomLinks}>
                             <span className={styles.madeWith}>
                                 Made with ❤️ in Bengaluru
                             </span>
                             <Link href="/sitemap" className={styles.bottomLink}>Sitemap</Link>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

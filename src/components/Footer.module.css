@@ -39,55 +39,55 @@
   gap: 20px;
 }
 
-/* Logo Section */
-.logoSection {
+/* Logo Styles */
+.logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 12px;
+  user-select: none;
+  width: 55%;
+}
+
+.logo:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
 }
 
 .logoIcon {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-weight: 700;
-  font-size: 18px;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  font-size: 16px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .logoText {
   display: flex;
-  align-items: baseline;
-  gap: 2px;
+  align-items: center;
+  justify-content: center;
 }
 
 .logoMain {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
-  color: #f7fafc;
+  color: #2d3748;
 }
 
 .logoAccent {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-.description {
-  color: #cbd5e0;
-  line-height: 1.6;
-  margin: 0;
-  font-size: 14px;
-  max-width: 280px;
 }
 
 /* Contact Info */
@@ -327,7 +327,7 @@
 
 .bottomContent {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 

@@ -186,10 +186,10 @@ export default function Home() {
         </section>
 
         {/* How It Works Section */}
-        <section className={styles.howItWorks} id="how-it-works">
+        <section className={styles.howItWorks} id="features">
           <div className={styles.sectionContainer}>
             <div className={styles.sectionHeader}>
-              <span className={styles.sectionBadge}>OUR EXPERTISE</span>
+              <span className={styles.sectionBadge}>Features</span>
               <h2 className={styles.sectionTitle}>
                 We deliver user-focused, scalable, and secure solutions tailored to your business needs.
               </h2>
@@ -242,7 +242,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section className={styles.features} id="features">
+        <section className={styles.features} id="why_choose_us">
           <div className={styles.sectionHeader}>
               <span className={styles.sectionBadge}>WHY CHOOSE US</span>
               <h2 className={styles.sectionTitle}>
@@ -299,7 +299,7 @@ export default function Home() {
         </section>
 
         {/* Recruiter CTA Section */}
-        <section className={styles.ctaSection} id="become-recruiter">
+        <section className={styles.ctaSection} id="become_recruiter">
           <div className={styles.sectionContainer}>
 
             <div className={styles.sectionHeader}>
