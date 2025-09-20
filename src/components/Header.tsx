@@ -168,8 +168,8 @@ const Header = () => {
                 <div className={styles.desktopNav}>
                     {!isAuthenticated && pathname === '/' ? (
                         <nav className={styles.nav}>
-                            <a href="#how_it_works" className={styles.navLink}>
-                                How it works
+                            <a href="#features" className={styles.navLink}>
+                                Features
                             </a>
                             <a href="#why_choose_us" className={styles.navLink}>
                                 Why choose us
@@ -177,8 +177,8 @@ const Header = () => {
                             <a href="#become_recruiter" className={styles.navLink}>
                                 Become a recruiter
                             </a>
-                            <a href="#good_deals" className={styles.navLink}>
-                                Good deals
+                            <a href="#pricing" className={styles.navLink}>
+                                Pricing
                             </a>
                         </nav>
                     ) : pathname !== '/' && pathname !== '/signin' && pathname !== '/signup' && (
