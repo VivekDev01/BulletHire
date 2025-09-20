@@ -26,6 +26,18 @@ import Image from 'next/image';
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [rocketAnimating, setRocketAnimating] = useState(false);
+
+  const handleRocketClick = () => {
+    if (rocketAnimating) return; // Prevent multiple clicks during animation
+    
+    setRocketAnimating(true);
+    
+    // Reset animation after it completes (4 seconds total)
+    setTimeout(() => {
+      setRocketAnimating(false);
+    }, 4000);
+  };
 
   useEffect(() => {
     // Create particles
@@ -161,7 +173,7 @@ export default function Home() {
                   View Our Work
                 </Link>
               </div>
-              <div className={styles.stats}>
+              {/* <div className={styles.stats}>
                 <div className={styles.stat}>
                   <h3>100</h3>
                   <p>Happy Clients</p>
@@ -170,23 +182,17 @@ export default function Home() {
                   <h3>200</h3>
                   <p>Projects Delivered</p>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className={styles.heroVisual}>
               <div className={styles.floatingElements}>
-                <div className={styles.floatingIcon}>
-                  <TipsAndUpdatesIcon />
-                </div>
-                <div className={styles.floatingIcon}>
-                  <BarChartIcon />
-                </div>
-                <div className={styles.floatingIcon}>
+                <div 
+                  className={`${styles.floatingIcon} ${styles.rocketIcon} ${rocketAnimating ? styles.rocketAnimating : ''}`}
+                  onClick={handleRocketClick}
+                >
                   <RocketIcon />
                 </div>
               </div>
-              {/* <div className={styles.heroImage}>
-                <Image src="/images/spotlight.png" alt="Hero Image" layout="fill" objectFit="contain" />
-              </div> */}
             </div>
           </div>
         </section>
@@ -340,7 +346,7 @@ export default function Home() {
                 <p>Post 1 job, shortlist up to 10 candidates. Perfect for startups and small businesses.</p>
                 <Link href="/payment" className={styles.btnPrimary}>Get Started</Link>
               </div>
-              <div className={`${styles.pricingCard} ${styles.featured} ${styles.animateOnScroll}`}>
+              <div className={`${styles.pricingCard} ${styles.animateOnScroll}`}>
                 <h3>Pro Plan</h3>
                 <div className={styles.price}>₹1,499</div>
                 <p>Post 5 jobs, shortlist up to 50 candidates, priority support. Ideal for growing companies.</p>
