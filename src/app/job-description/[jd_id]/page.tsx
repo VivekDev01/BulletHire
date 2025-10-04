@@ -34,7 +34,7 @@ const GeneratedJobDescriptionPage = () => {
       if (response.data) {
         // setRole(response.data.job.role);
         // setLocation(response.data.job.location);
-        setDescription(response.data.job.jd);
+        setDescription(response.data.job.job_description);
       }
     } catch (error) {
       console.error('Error fetching job description:', error);
@@ -119,7 +119,7 @@ const GeneratedJobDescriptionPage = () => {
                 onClick={async () => {
                     try{
                         const response = await axios.post(`${url}/finalize_jd/${jd_id}`, {
-                            jd: description
+                            job_description: description
                         }, {
                             headers: {
                                 Authorization: `Bearer ${localStorage.getItem('token')}`

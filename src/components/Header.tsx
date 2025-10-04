@@ -30,7 +30,7 @@ const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const open = Boolean(anchorEl);
     // const [userData, setUserData] = useState({
-    //     name: '',
+    //     username: '',
     //     email: '',
     //     profilePicture: '',
     //     id: ''
@@ -68,7 +68,7 @@ const Header = () => {
     //                 const user = response.data.user;
     //                 if (user) {
     //                     setUserData({
-    //                         name: user.username || '',
+    //                         username: user.username || '',
     //                         email: user.email || '',
     //                         profilePicture: user.profilePicture || '',
     //                         id: user._id || ''
@@ -76,7 +76,7 @@ const Header = () => {
     //                     localStorage.setItem('userId', user._id || '');
     //                 } else {
     //                     setUserData({
-    //                         name: '',
+    //                         username: '',
     //                         email: '',
     //                         profilePicture: '',
     //                         id: ''
@@ -85,7 +85,7 @@ const Header = () => {
     //             } catch (error) {
     //                 console.error('Error fetching user data:', error);
     //                 setUserData({
-    //                     name: '',
+    //                     username: '',
     //                     email: '',
     //                     profilePicture: '',
     //                     id: ''
@@ -226,13 +226,13 @@ const Header = () => {
                                 onClick={handleClick}
                             >
                                 <Avatar 
-                                    alt={userData.name} 
+                                    alt={userData.username} 
                                     src={userData.profilePicture || ""} 
                                     className={styles.avatar}
                                 >
-                                    {!userData.profilePicture && userData.name.charAt(0).toUpperCase()}
+                                    {!userData.profilePicture && userData.username.charAt(0).toUpperCase()}
                                 </Avatar>
-                                <span className={styles.userName}>{userData.name}</span>
+                                <span className={styles.userName}>{userData.username}</span>
                             </button>
                             <Menu
                                 id="user-menu"
@@ -353,9 +353,9 @@ const Header = () => {
                     <div className={styles.mobileUserSection}>
                         <div className={styles.mobileUserInfo}>
                             <Avatar src={userData.profilePicture || ""} className={styles.mobileAvatar}>
-                                {!userData.profilePicture && userData.name.charAt(0).toUpperCase()}
+                                {!userData.profilePicture && userData.username.charAt(0).toUpperCase()}
                             </Avatar>
-                            <span className={styles.mobileUserName}>{userData.name}</span>
+                            <span className={styles.mobileUserName}>{userData.username}</span>
                         </div>
                         <button 
                             onClick={() => { router.push(`/profile`); setMobileMenuOpen(false); }}

@@ -19,3 +19,5 @@ out
 .DS_Store
 .git
 dockerfile
+src/config.ts
+/src/config.ts

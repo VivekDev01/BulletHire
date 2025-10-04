@@ -40,6 +40,7 @@ type Post = {
     comments: Comment[];
     shares: string[];
   };
+  created_at: string;
 };
 
 const FeedPage = () => {
@@ -189,7 +190,7 @@ const FeedPage = () => {
                 <button className={styles.postBtn}>Post</button>
                 </div>
           </div>
-          {posts.map((post) => (
+          {posts?.map((post: Post) => (
             <div key={post._id} className={styles.postCard}>
               <div className={styles.postHeader}>
                 <div className={styles.avatar}>
@@ -197,7 +198,19 @@ const FeedPage = () => {
                 </div>
                 <div>
                   <div className={styles.username}>{post.user.username}</div>
-                  <div className={styles.postDate}>{post._id ? new Date(parseInt(post._id.substring(0,8), 16) * 1000).toLocaleString() : ''}</div>
+                  <div className={styles.postDate}>
+                    {post.created_at
+                      ? (() => {
+                        const utcDate = new Date(post.created_at);
+                        const istDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
+                        return istDate.toLocaleString('en-IN', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short',
+                        hour12: true
+                        });
+                      })()
+                      : ''}
+                </div>
                 </div>
               </div>
               <div className={styles.postContent}>

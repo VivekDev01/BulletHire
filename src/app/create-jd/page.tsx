@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styles from './page.module.css';
 import Layout from '@/components/Layout';
 import axios from 'axios';
-import {url} from '../../config'
+import {hr_agent_url} from '../../config'
 
 const CenteredTextAreaPage = () => {
   const [jobRole, setJobRole] = useState('');
@@ -14,7 +14,7 @@ const CenteredTextAreaPage = () => {
 
   const handleSubmit = async () => {
     try{
-        const res = await axios.post(`${url}/create_jd`, 
+        const res = await axios.post(`${hr_agent_url}/create_jd`, 
         {
           'role':jobRole,
           'location':location,
@@ -31,7 +31,7 @@ const CenteredTextAreaPage = () => {
       );
       if(res.status === 200) {
         alert('Job description created successfully!');
-        window.location.href = `/job-description/${res.data.job_id}`;
+        window.location.href = `/job-description/${res.data.jd_id}`;
       }
     }
     catch (error) {
