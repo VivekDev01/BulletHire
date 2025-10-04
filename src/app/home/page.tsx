@@ -190,7 +190,7 @@ const FeedPage = () => {
                 <button className={styles.postBtn}>Post</button>
                 </div>
           </div>
-          {posts.map((post: Post) => (
+          {posts?.map((post: Post) => (
             <div key={post._id} className={styles.postCard}>
               <div className={styles.postHeader}>
                 <div className={styles.avatar}>
@@ -200,12 +200,15 @@ const FeedPage = () => {
                   <div className={styles.username}>{post.user.username}</div>
                   <div className={styles.postDate}>
                     {post.created_at
-                      ? new Date(post.created_at).toLocaleString('en-IN', {
-                          timeZone: 'Asia/Kolkata',
-                          dateStyle: 'medium',
-                          timeStyle: 'short',
-                          hour12: true
-                        })
+                      ? (() => {
+                        const utcDate = new Date(post.created_at);
+                        const istDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
+                        return istDate.toLocaleString('en-IN', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short',
+                        hour12: true
+                        });
+                      })()
                       : ''}
                 </div>
                 </div>

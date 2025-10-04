@@ -42,7 +42,10 @@ export default function JobsCard({ jobDetails }: { jobDetails: JobDetails }) {
     const experience = jobDetails.experience;
     const salary = jobDetails.salary ? jobDetails.salary : "Not specified";
     const skills = jobDetails.skills ? jobDetails.skills.split(", ") : [];
-    const postedAt = jobDetails.created_at ? new Date(jobDetails.created_at).toLocaleDateString() : "Unknown"
+    const postedAt = jobDetails.created_at
+        ? new Date(new Date(jobDetails.created_at).getTime() + 5.5 * 60 * 60 * 1000)
+            .toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', year: 'numeric', month: 'short', day: 'numeric' })
+        : "Unknown";
 
     const postedBy = jobDetails.user.username;
 
